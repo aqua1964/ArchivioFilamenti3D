@@ -86,11 +86,14 @@
               <option value="Altro">Altro</option>
             </select>
           </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Nome Colore *</label>
-            <div class="flex space-x-2">
-              <input type="color" id="spool-color-code" value="#3b82f6" class="h-9 w-12 bg-slate-900 border border-slate-700 rounded cursor-pointer p-1">
-              <input type="text" id="spool-color-name" required placeholder="Es. Blu Elettrico" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+          <div class="md:col-span-2">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette Rapida *</label>
+            <div class="space-y-2">
+              <input type="text" id="spool-color-name" required placeholder="Es. Blu Elettrico, Bianco Opaco..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <div id="palette-spool" class="flex flex-wrap gap-1.5 p-2 bg-slate-900/60 border border-slate-700 rounded-lg">
+                <!-- Generato da JS -->
+              </div>
+              <input type="hidden" id="spool-color-code" value="#3b82f6">
             </div>
           </div>
           <div>
@@ -102,19 +105,23 @@
             <input type="number" id="spool-weight" required min="1" value="1000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Costo Bobina (€) - opzionale</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Costo Bobina (€)</label>
             <input type="number" step="0.01" id="spool-cost" placeholder="Es. 19.99" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Temp. Ugello (°C)</label>
             <input type="text" id="spool-temp" placeholder="Es. 200 - 220" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
-          <div class="md:col-span-2 lg:col-span-1">
+          <div class="md:col-span-2">
             <label class="block text-xs font-medium text-slate-400 mb-1">Foto Bobina (File o URL)</label>
             <div class="flex space-x-2">
               <input type="file" id="spool-image-file" accept="image/*" class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-300 file:mr-2 file:py-1 file:px-2 file:rounded file:border-0 file:bg-indigo-600 file:text-white file:text-xs">
               <input type="url" id="spool-image-url" placeholder="URL..." class="w-1/2 bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
             </div>
+          </div>
+          <div class="md:col-span-2 lg:col-span-2">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Note</label>
+            <input type="text" id="spool-notes" placeholder="Es. Ottima aderenza al piatto..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div class="md:col-span-3 lg:col-span-4 flex justify-end mt-2">
             <button type="submit" class="bg-indigo-600 hover:bg-indigo-500 text-white px-6 py-2 rounded-lg font-medium text-sm transition flex items-center">
@@ -285,10 +292,13 @@
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Codice Colore *</label>
-          <div class="flex space-x-2">
-            <input type="color" id="edit-spool-color-code" class="h-9 w-12 bg-slate-900 border border-slate-700 rounded cursor-pointer p-1">
+          <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette Rapida *</label>
+          <div class="space-y-2">
             <input type="text" id="edit-spool-color-name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+            <div id="palette-edit" class="flex flex-wrap gap-1.5 p-2 bg-slate-900/60 border border-slate-700 rounded-lg">
+              <!-- Generato da JS -->
+            </div>
+            <input type="hidden" id="edit-spool-color-code">
           </div>
         </div>
 
@@ -325,6 +335,11 @@
           </div>
         </div>
 
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Note</label>
+          <input type="text" id="edit-spool-notes" placeholder="Note sulla bobina..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+        </div>
+
         <div class="flex justify-end space-x-3 pt-3 border-t border-slate-700">
           <button type="button" onclick="closeEditModal()" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 text-sm rounded-lg font-medium">
             Annulla
@@ -338,16 +353,58 @@
   </div>
 
   <script>
-    // Stato Applicazione
+    const COLOR_PALETTE = [
+      { name: 'Nero', hex: '#111827' },
+      { name: 'Bianco', hex: '#f8fafc' },
+      { name: 'Grigio Scuro', hex: '#4b5563' },
+      { name: 'Grigio Chiaro', hex: '#cbd5e1' },
+      { name: 'Rosso', hex: '#ef4444' },
+      { name: 'Arancione', hex: '#f97316' },
+      { name: 'Giallo', hex: '#eab308' },
+      { name: 'Verde', hex: '#22c55e' },
+      { name: 'Verde Scuro / Militare', hex: '#166534' },
+      { name: 'Celeste / Tiffany', hex: '#06b6d4' },
+      { name: 'Blu', hex: '#3b82f6' },
+      { name: 'Blu Notte', hex: '#1e3a8a' },
+      { name: 'Viola', hex: '#a855f7' },
+      { name: 'Rosa / Magenta', hex: '#ec4899' },
+      { name: 'Marrone / Legno', hex: '#78350f' },
+      { name: 'Oro / Silk Gold', hex: '#d97706' },
+      { name: 'Rame / Bronze', hex: '#b45309' },
+      { name: 'Trasparente / Natural', hex: '#e2e8f0' }
+    ];
+
     let spools = JSON.parse(localStorage.getItem('f3d_spools')) || [];
     let purchases = JSON.parse(localStorage.getItem('f3d_purchases')) || [];
     let prints = JSON.parse(localStorage.getItem('f3d_prints')) || [];
 
-    // Inizializzazione
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('purchase-date').valueAsDate = new Date();
+      buildColorPalette('palette-spool', 'spool-color-code', 'spool-color-name', '#3b82f6');
       renderAll();
     });
+
+    function buildColorPalette(containerId, hiddenInputId, nameInputId, defaultHex) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+
+      COLOR_PALETTE.forEach(c => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.title = c.name;
+        btn.className = `w-7 h-7 rounded-full border-2 transition transform hover:scale-110 focus:outline-none ${c.hex === defaultHex ? 'border-indigo-400 scale-110 shadow-lg' : 'border-slate-700'}`;
+        btn.style.backgroundColor = c.hex;
+        
+        btn.onclick = () => {
+          document.getElementById(hiddenInputId).value = c.hex;
+          document.getElementById(nameInputId).value = c.name;
+          container.querySelectorAll('button').forEach(b => b.classList.remove('border-indigo-400', 'scale-110', 'shadow-lg'));
+          btn.classList.add('border-indigo-400', 'scale-110', 'shadow-lg');
+        };
+
+        container.appendChild(btn);
+      });
+    }
 
     function saveData() {
       localStorage.setItem('f3d_spools', JSON.stringify(spools));
@@ -360,4 +417,340 @@
       ['inventory', 'purchases', 'prints'].forEach(t => {
         document.getElementById(`view-${t}`).classList.add('hidden');
         const btn = document.getElementById(`tab-${t}`);
-        btn.className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-slate-800 text-slate-300 hover:bg-slate-7
+        btn.className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-slate-800 text-slate-300 hover:bg-slate-700";
+      });
+
+      document.getElementById(`view-${tab}`).classList.remove('hidden');
+      const activeBtn = document.getElementById(`tab-${tab}`);
+      activeBtn.className = "px-4 py-2 rounded-lg font-medium text-sm transition bg-indigo-600 text-white";
+    }
+
+    async function addSpool(e) {
+      e.preventDefault();
+      
+      const fileInput = document.getElementById('spool-image-file');
+      const urlInput = document.getElementById('spool-image-url').value.trim();
+      let imageData = urlInput;
+
+      if (fileInput.files && fileInput.files[0]) {
+        imageData = await readAsBase64(fileInput.files[0]);
+      }
+
+      const initialWeight = parseInt(document.getElementById('spool-weight').value) || 1000;
+      const newSpool = {
+        id: Date.now().toString(),
+        brand: document.getElementById('spool-brand').value.trim(),
+        material: document.getElementById('spool-material').value,
+        colorName: document.getElementById('spool-color-name').value.trim(),
+        colorCode: document.getElementById('spool-color-code').value || '#3b82f6',
+        sku: document.getElementById('spool-sku').value.trim(),
+        weight: initialWeight,
+        initialWeight: initialWeight,
+        cost: parseFloat(document.getElementById('spool-cost').value) || 0,
+        temp: document.getElementById('spool-temp').value.trim(),
+        notes: document.getElementById('spool-notes').value.trim(),
+        image: imageData
+      };
+
+      spools.push(newSpool);
+      saveData();
+      document.getElementById('form-spool').reset();
+      buildColorPalette('palette-spool', 'spool-color-code', 'spool-color-name', '#3b82f6');
+    }
+
+    function openEditModal(id) {
+      const spool = spools.find(s => s.id === id);
+      if (!spool) return;
+
+      document.getElementById('edit-spool-id').value = spool.id;
+      document.getElementById('edit-spool-brand').value = spool.brand || '';
+      document.getElementById('edit-spool-material').value = spool.material || 'PLA';
+      document.getElementById('edit-spool-color-name').value = spool.colorName || '';
+      document.getElementById('edit-spool-color-code').value = spool.colorCode || '#3b82f6';
+      document.getElementById('edit-spool-sku').value = spool.sku || '';
+      document.getElementById('edit-spool-weight').value = spool.weight || 1000;
+      document.getElementById('edit-spool-initial-weight').value = spool.initialWeight || 1000;
+      document.getElementById('edit-spool-cost').value = spool.cost || '';
+      document.getElementById('edit-spool-temp').value = spool.temp || '';
+      document.getElementById('edit-spool-notes').value = spool.notes || '';
+      document.getElementById('edit-spool-image-url').value = spool.image && spool.image.startsWith('http') ? spool.image : '';
+      document.getElementById('edit-spool-image-file').value = '';
+
+      buildColorPalette('palette-edit', 'edit-spool-color-code', 'edit-spool-color-name', spool.colorCode || '#3b82f6');
+      document.getElementById('edit-modal').classList.remove('hidden');
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-modal').classList.add('hidden');
+    }
+
+    async function saveEditSpool(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-spool-id').value;
+      const spool = spools.find(s => s.id === id);
+      if (!spool) return;
+
+      const fileInput = document.getElementById('edit-spool-image-file');
+      const urlInput = document.getElementById('edit-spool-image-url').value.trim();
+
+      if (fileInput.files && fileInput.files[0]) {
+        spool.image = await readAsBase64(fileInput.files[0]);
+      } else if (urlInput) {
+        spool.image = urlInput;
+      }
+
+      spool.brand = document.getElementById('edit-spool-brand').value.trim();
+      spool.material = document.getElementById('edit-spool-material').value;
+      spool.colorName = document.getElementById('edit-spool-color-name').value.trim();
+      spool.colorCode = document.getElementById('edit-spool-color-code').value;
+      spool.sku = document.getElementById('edit-spool-sku').value.trim();
+      spool.weight = parseInt(document.getElementById('edit-spool-weight').value) || 0;
+      spool.initialWeight = parseInt(document.getElementById('edit-spool-initial-weight').value) || 1000;
+      spool.cost = parseFloat(document.getElementById('edit-spool-cost').value) || 0;
+      spool.temp = document.getElementById('edit-spool-temp').value.trim();
+      spool.notes = document.getElementById('edit-spool-notes').value.trim();
+
+      saveData();
+      closeEditModal();
+    }
+
+    function deleteSpool(id) {
+      if (confirm('Sei sicuro di voler eliminare questa bobina dall\'inventario?')) {
+        spools = spools.filter(s => s.id !== id);
+        saveData();
+      }
+    }
+
+    function addPurchase(e) {
+      e.preventDefault();
+      const newPurchase = {
+        id: Date.now().toString(),
+        date: document.getElementById('purchase-date').value,
+        vendor: document.getElementById('purchase-vendor').value.trim(),
+        item: document.getElementById('purchase-item').value.trim(),
+        kg: parseFloat(document.getElementById('purchase-kg').value) || 0,
+        price: parseFloat(document.getElementById('purchase-price').value) || 0,
+        notes: document.getElementById('purchase-notes').value.trim()
+      };
+
+      purchases.push(newPurchase);
+      saveData();
+      document.getElementById('form-purchase').reset();
+      document.getElementById('purchase-date').valueAsDate = new Date();
+    }
+
+    function deletePurchase(id) {
+      if (confirm('Eliminare questo acquisto dallo storico?')) {
+        purchases = purchases.filter(p => p.id !== id);
+        saveData();
+      }
+    }
+
+    function addPrint(e) {
+      e.preventDefault();
+      const spoolId = document.getElementById('print-spool-id').value;
+      const weightUsed = parseInt(document.getElementById('print-weight').value);
+      const spool = spools.find(s => s.id === spoolId);
+
+      if (!spool) {
+        alert('Seleziona una bobina valida!');
+        return;
+      }
+
+      let costPerGram = 0;
+      const initW = spool.initialWeight || 1000;
+      if (spool.cost && spool.cost > 0) {
+        costPerGram = spool.cost / initW;
+      } else {
+        costPerGram = 20 / 1000;
+      }
+
+      const printCost = weightUsed * costPerGram;
+      spool.weight = Math.max(0, spool.weight - weightUsed);
+
+      const newPrint = {
+        id: Date.now().toString(),
+        date: new Date().toLocaleDateString('it-IT'),
+        name: document.getElementById('print-name').value.trim(),
+        spoolId: spoolId,
+        spoolName: `${spool.brand} ${spool.material} (${spool.colorName})`,
+        weightUsed: weightUsed,
+        cost: printCost
+      };
+
+      prints.push(newPrint);
+      saveData();
+      document.getElementById('form-print').reset();
+    }
+
+    function deletePrint(id) {
+      if (confirm('Eliminare questa stampa dallo storico?')) {
+        prints = prints.filter(p => p.id !== id);
+        saveData();
+      }
+    }
+
+    function renderAll() {
+      renderStats();
+      renderSpools();
+      renderPurchases();
+      renderPrints();
+      populateSpoolSelect();
+    }
+
+    function renderStats() {
+      document.getElementById('stat-total-spools').innerText = spools.length;
+      const totalWeight = spools.reduce((acc, s) => acc + s.weight, 0);
+      document.getElementById('stat-total-weight').innerText = `${totalWeight} g`;
+      document.getElementById('stat-total-prints').innerText = prints.length;
+      const totalSpent = purchases.reduce((acc, p) => acc + p.price, 0);
+      document.getElementById('stat-total-spent').innerText = `${totalSpent.toFixed(2)} €`;
+      const totalPrintCost = prints.reduce((acc, p) => acc + (p.cost || 0), 0);
+      document.getElementById('stat-total-print-cost').innerText = `${totalPrintCost.toFixed(2)} €`;
+    }
+
+    function renderSpools() {
+      const container = document.getElementById('spools-grid');
+      container.innerHTML = '';
+
+      if (spools.length === 0) {
+        container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-500">Nessuna bobina salvata nell'inventario.</div>`;
+        return;
+      }
+
+      spools.forEach(s => {
+        const perc = Math.round((s.weight / (s.initialWeight || 1000)) * 100);
+        const card = document.createElement('div');
+        card.className = "bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-md flex flex-col justify-between";
+        
+        card.innerHTML = `
+          <div>
+            <div class="h-36 bg-slate-950 p-2 relative flex items-center justify-center border-b border-slate-700">
+              ${s.image 
+                ? `<img src="${s.image}" class="w-full h-full object-contain">` 
+                : `<div class="w-16 h-16 rounded-full flex items-center justify-center shadow-inner" style="background-color: ${s.colorCode}">
+                     <i class="fa-solid fa-tape text-slate-900 text-2xl opacity-40"></i>
+                   </div>`
+              }
+              <span class="absolute top-2 right-2 bg-slate-900/80 backdrop-blur text-xs px-2 py-1 rounded font-semibold text-white border border-slate-700 shadow">
+                ${s.material}
+              </span>
+            </div>
+            
+            <div class="p-4 space-y-3">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h3 class="font-bold text-slate-100">${s.brand}</h3>
+                  <div class="flex items-center space-x-2 mt-0.5">
+                    <span class="w-3 h-3 rounded-full inline-block border border-slate-600" style="background-color: ${s.colorCode}"></span>
+                    <span class="text-xs text-slate-300 font-medium">${s.colorName}</span>
+                  </div>
+                </div>
+                <div class="flex space-x-1">
+                  <button onclick="openEditModal('${s.id}')" title="Modifica" class="text-slate-400 hover:text-indigo-400 p-1">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                  </button>
+                  <button onclick="deleteSpool('${s.id}')" title="Elimina" class="text-slate-400 hover:text-rose-400 p-1">
+                    <i class="fa-solid fa-trash"></i>
+                  </button>
+                </div>
+              </div>
+
+              ${s.sku ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-barcode mr-1"></i>SKU: <span class="font-mono text-slate-300">${s.sku}</span></div>` : ''}
+              ${s.cost ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-euro-sign mr-1"></i>Costo bobina: <span class="text-slate-300">${s.cost.toFixed(2)} €</span></div>` : ''}
+              ${s.temp ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-temperature-high mr-1"></i>Ugello: <span class="text-slate-300">${s.temp}°C</span></div>` : ''}
+              ${s.notes ? `<div class="text-xs text-slate-400 bg-slate-900/50 p-2 rounded border border-slate-700/50"><i class="fa-solid fa-note-sticky mr-1 text-indigo-400"></i>${s.notes}</div>` : ''}
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-400">Rimanente:</span>
+                  <span class="font-bold text-slate-200">${s.weight}g / ${s.initialWeight || 1000}g</span>
+                </div>
+                <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
+                  <div class="h-full ${perc < 20 ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${Math.min(100, perc)}%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderPurchases() {
+      const tbody = document.getElementById('purchases-table-body');
+      tbody.innerHTML = '';
+
+      if (purchases.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Nessun acquisto registrato.</td></tr>`;
+        return;
+      }
+
+      purchases.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-3 text-xs text-slate-400">${p.date}</td>
+          <td class="p-3 font-semibold text-slate-200">${p.vendor}</td>
+          <td class="p-3">${p.item}</td>
+          <td class="p-3 text-slate-300">${p.kg} Kg</td>
+          <td class="p-3 font-bold text-emerald-400">${p.price.toFixed(2)} €</td>
+          <td class="p-3 text-xs text-slate-400">${p.notes || '-'}</td>
+          <td class="p-3 text-right">
+            <button onclick="deletePurchase('${p.id}')" class="text-slate-500 hover:text-rose-400 text-xs">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function renderPrints() {
+      const tbody = document.getElementById('prints-table-body');
+      tbody.innerHTML = '';
+
+      if (prints.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500">Nessuna stampa registrata.</td></tr>`;
+        return;
+      }
+
+      prints.forEach(p => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td class="p-3 text-xs text-slate-400">${p.date}</td>
+          <td class="p-3 font-semibold text-slate-200">${p.name}</td>
+          <td class="p-3 text-slate-300">${p.spoolName}</td>
+          <td class="p-3 text-amber-400 font-medium">-${p.weightUsed} g</td>
+          <td class="p-3 font-bold text-cyan-400">${(p.cost || 0).toFixed(2)} €</td>
+          <td class="p-3 text-right">
+            <button onclick="deletePrint('${p.id}')" class="text-slate-500 hover:text-rose-400 text-xs">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function populateSpoolSelect() {
+      const select = document.getElementById('print-spool-id');
+      select.innerHTML = '<option value="">-- Seleziona Bobina --</option>';
+      spools.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.innerText = `${s.brand} ${s.material} - ${s.colorName} (${s.weight}g rimanenti)`;
+        select.appendChild(opt);
+      });
+    }
+
+    function readAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
+    }
+  </script>
+</body>
+</html>
