@@ -99,6 +99,10 @@
             <input type="text" id="spool-sku" placeholder="Es. SUN-PLA-BLU-1000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Data d'Acquisto</label>
+            <input type="date" id="spool-purchase-date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
+          </div>
+          <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Peso Iniziale / Attuale (g) *</label>
             <input type="number" id="spool-weight" required min="1" value="1000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
@@ -340,6 +344,11 @@
           <input type="text" id="edit-spool-sku" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
         </div>
 
+        <div>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Data d'Acquisto</label>
+          <input type="date" id="edit-spool-purchase-date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
+        </div>
+
         <div class="grid grid-cols-3 gap-2">
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Rimanente (g)</label>
@@ -413,6 +422,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('purchase-date').valueAsDate = new Date();
+      document.getElementById('spool-purchase-date').valueAsDate = new Date();
       buildColorPalette('palette-spool', 'spool-color-code', 'spool-color-name', '#3b82f6');
       renderAll();
     });
@@ -477,6 +487,7 @@
         colorName: document.getElementById('spool-color-name').value.trim(),
         colorCode: document.getElementById('spool-color-code').value || '#3b82f6',
         sku: document.getElementById('spool-sku').value.trim(),
+        purchaseDate: document.getElementById('spool-purchase-date').value || '',
         weight: initialWeight,
         initialWeight: initialWeight,
         cost: parseFloat(document.getElementById('spool-cost').value) || 0,
@@ -488,6 +499,7 @@
       spools.push(newSpool);
       saveData();
       document.getElementById('form-spool').reset();
+      document.getElementById('spool-purchase-date').valueAsDate = new Date();
       buildColorPalette('palette-spool', 'spool-color-code', 'spool-color-name', '#3b82f6');
     }
 
@@ -501,6 +513,7 @@
       document.getElementById('edit-spool-color-name').value = spool.colorName || '';
       document.getElementById('edit-spool-color-code').value = spool.colorCode || '#3b82f6';
       document.getElementById('edit-spool-sku').value = spool.sku || '';
+      document.getElementById('edit-spool-purchase-date').value = spool.purchaseDate || '';
       document.getElementById('edit-spool-weight').value = spool.weight || 1000;
       document.getElementById('edit-spool-initial-weight').value = spool.initialWeight || 1000;
       document.getElementById('edit-spool-cost').value = spool.cost || '';
@@ -537,6 +550,7 @@
       spool.colorName = document.getElementById('edit-spool-color-name').value.trim();
       spool.colorCode = document.getElementById('edit-spool-color-code').value;
       spool.sku = document.getElementById('edit-spool-sku').value.trim();
+      spool.purchaseDate = document.getElementById('edit-spool-purchase-date').value;
       spool.weight = parseInt(document.getElementById('edit-spool-weight').value) || 0;
       spool.initialWeight = parseInt(document.getElementById('edit-spool-initial-weight').value) || 1000;
       spool.cost = parseFloat(document.getElementById('edit-spool-cost').value) || 0;
@@ -586,7 +600,6 @@
       let totalWeightUsed = 0;
       let totalPrintCost = 0;
 
-      // Raccoglie i dati dai 4 slot di bobine
       for (let i = 0; i < 4; i++) {
         const spoolId = document.getElementById(`print-spool-${i}`).value;
         const weightUsed = parseInt(document.getElementById(`print-weight-${i}`).value) || 0;
@@ -709,6 +722,7 @@
               </div>
 
               ${s.sku ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-barcode mr-1"></i>SKU: <span class="font-mono text-slate-300">${s.sku}</span></div>` : ''}
+              ${s.purchaseDate ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-calendar-days mr-1"></i>Acquisto: <span class="text-slate-300">${s.purchaseDate}</span></div>` : ''}
               ${s.cost ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-euro-sign mr-1"></i>Costo bobina: <span class="text-slate-300">${s.cost.toFixed(2)} €</span></div>` : ''}
               ${s.temp ? `<div class="text-xs text-slate-400"><i class="fa-solid fa-temperature-high mr-1"></i>Ugello: <span class="text-slate-300">${s.temp}°C</span></div>` : ''}
               ${s.notes ? `<div class="text-xs text-slate-400 bg-slate-900/50 p-2 rounded border border-slate-700/50"><i class="fa-solid fa-note-sticky mr-1 text-indigo-400"></i>${s.notes}</div>` : ''}
