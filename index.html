@@ -24,7 +24,7 @@
 
   <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 space-y-6">
 
-    <!-- Statistiche Dashboard (Griglia flessibile mobile-first) -->
+    <!-- Statistiche Dashboard -->
     <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-sm">
         <div class="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase">Bobine/Refill</div>
@@ -48,9 +48,9 @@
       </div>
     </section>
 
-    <!-- Navigazione Tab (Adattiva smartphone: bottoni grandi e tocchi agevoli) -->
+    <!-- Navigazione Tab -->
     <div class="grid grid-cols-3 gap-1.5 bg-slate-800 p-1.5 rounded-xl border border-slate-700 shadow-md">
-      <button onclick="switchTab('inventory')" id="tab-inventory" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition bg-indigo-600 text-white flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
+      <button onclick="switchTab('inventory')" id="tab-inventory" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition bg-indigo-600 text-white flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 shadow">
         <i class="fa-solid fa-boxes-stacked text-base sm:text-sm"></i>
         <span>Inventario</span>
       </button>
@@ -66,6 +66,27 @@
 
     <!-- SEZIONE INVENTARIO -->
     <div id="view-inventory" class="space-y-5">
+
+      <!-- RIEPILOGO RAPIDO STOCK PER MATERIALE E COLORE -->
+      <div class="bg-slate-800 p-4 rounded-xl border border-slate-700 shadow-lg space-y-3">
+        <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center">
+          <i class="fa-solid fa-chart-pie mr-2 text-indigo-400"></i>Riepilogo Stock a Colpo d'Occhio
+        </h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <!-- Per Materiale -->
+          <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700/60">
+            <div class="text-[11px] font-semibold text-slate-400 mb-2">Per Materiale:</div>
+            <div id="stock-summary-materials" class="flex flex-wrap gap-1.5"></div>
+          </div>
+          <!-- Per Colore -->
+          <div class="bg-slate-900/60 p-3 rounded-lg border border-slate-700/60">
+            <div class="text-[11px] font-semibold text-slate-400 mb-2">Per Colore:</div>
+            <div id="stock-summary-colors" class="flex flex-wrap gap-1.5"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- FORM AGGIUNGI FILAMENTO -->
       <div class="bg-slate-800 p-4 sm:p-5 rounded-xl border border-slate-700 shadow-lg">
         <h2 class="text-base sm:text-lg font-semibold mb-4 text-indigo-400 flex items-center">
           <i class="fa-solid fa-plus-circle mr-2"></i>Aggiungi Nuovo Filamento
@@ -704,10 +725,60 @@
 
     function renderAll() {
       renderStats();
+      renderStockSummary();
       renderSpools();
       renderPurchases();
       renderPrints();
       populateSpoolSelects();
+    }
+
+    function renderStockSummary() {
+      const matContainer = document.getElementById('stock-summary-materials');
+      const colContainer = document.getElementById('stock-summary-colors');
+      matContainer.innerHTML = '';
+      colContainer.innerHTML = '';
+
+      if (spools.length === 0) {
+        matContainer.innerHTML = `<span class="text-xs text-slate-500">Nessun filamento</span>`;
+        colContainer.innerHTML = `<span class="text-xs text-slate-500">Nessun filamento</span>`;
+        return;
+      }
+
+      // Conteggi per Materiale
+      let materialsCount = {};
+      // Conteggi per Colore
+      let colorsCount = {};
+
+      spools.forEach(s => {
+        const mat = s.material || 'Altro';
+        materialsCount[mat] = (materialsCount[mat] || 0) + 1;
+
+        const colKey = s.colorName || 'Altro';
+        if (!colorsCount[colKey]) {
+          colorsCount[colKey] = { count: 0, code: s.colorCode || '#3b82f6' };
+        }
+        colorsCount[colKey].count += 1;
+      });
+
+      // Mostra badge materiali
+      for (const [mat, count] => of Object.entries(materialsCount)) {
+        const badge = document.createElement('span');
+        badge.className = "inline-flex items-center bg-indigo-950/80 text-indigo-300 border border-indigo-700/50 px-2.5 py-1 rounded-md text-xs font-medium";
+        badge.innerHTML = `${mat} <span class="ml-1.5 bg-indigo-600 text-white rounded-full w-4 h-4 inline-flex items-center justify-center text-[10px] font-bold">${count}</span>`;
+        matContainer.appendChild(badge);
+      }
+
+      // Mostra badge colori
+      for (const [colName, data] of Object.entries(colorsCount)) {
+        const badge = document.createElement('span');
+        badge.className = "inline-flex items-center bg-slate-800 text-slate-200 border border-slate-700 px-2 py-1 rounded-md text-xs font-medium space-x-1.5";
+        badge.innerHTML = `
+          <span class="w-2.5 h-2.5 rounded-full border border-slate-600 inline-block" style="background-color: ${data.code}"></span>
+          <span>${colName}</span>
+          <span class="bg-slate-700 text-slate-300 rounded-full w-4 h-4 inline-flex items-center justify-center text-[10px] font-bold">${data.count}</span>
+        `;
+        colContainer.appendChild(badge);
+      }
     }
 
     function renderStats() {
