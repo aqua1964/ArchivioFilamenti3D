@@ -90,9 +90,7 @@
             <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette Rapida *</label>
             <div class="space-y-2">
               <input type="text" id="spool-color-name" required placeholder="Es. Blu Elettrico, Bianco Opaco..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-indigo-500">
-              <div id="palette-spool" class="flex flex-wrap gap-1.5 p-2 bg-slate-900/60 border border-slate-700 rounded-lg">
-                <!-- Generato da JS -->
-              </div>
+              <div id="palette-spool" class="flex flex-wrap gap-1.5 p-2 bg-slate-900/60 border border-slate-700 rounded-lg"></div>
               <input type="hidden" id="spool-color-code" value="#3b82f6">
             </div>
           </div>
@@ -131,9 +129,7 @@
         </form>
       </div>
 
-      <div id="spools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <!-- Generato dinamicamente -->
-      </div>
+      <div id="spools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
     <!-- SEZIONE STORICO ACQUISTI -->
@@ -192,9 +188,7 @@
                 <th class="p-3 text-right">Azione</th>
               </tr>
             </thead>
-            <tbody id="purchases-table-body" class="divide-y divide-slate-700">
-              <!-- Generato dinamicamente -->
-            </tbody>
+            <tbody id="purchases-table-body" class="divide-y divide-slate-700"></tbody>
           </table>
         </div>
       </div>
@@ -204,26 +198,69 @@
     <div id="view-prints" class="space-y-6 hidden">
       <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-lg">
         <h2 class="text-lg font-semibold mb-4 text-amber-400 flex items-center">
-          <i class="fa-solid fa-print mr-2"></i>Registra Nuova Stampa 3D
+          <i class="fa-solid fa-print mr-2"></i>Registra Nuova Stampa 3D (Fino a 4 Bobine)
         </h2>
-        <form id="form-print" onsubmit="addPrint(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <form id="form-print" onsubmit="addPrint(event)" class="space-y-4">
           <div>
             <label class="block text-xs font-medium text-slate-400 mb-1">Nome / Descrizione Stampa *</label>
-            <input type="text" id="print-name" required placeholder="Es. Vaso Toroidale, Supporto GPU" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
+            <input type="text" id="print-name" required placeholder="Es. Vaso Multicolor, Supporto GPU" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
           </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Seleziona Bobina Utilizzata *</label>
-            <select id="print-spool-id" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-              <!-- Opzioni popolate dinamicamente -->
-            </select>
+
+          <div class="space-y-3">
+            <label class="block text-xs font-medium text-slate-400">Bobine Filamento Utilizzate (da 1 a 4)</label>
+            
+            <!-- Slot Bobina 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="md:col-span-2">
+                <select id="print-spool-0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona Bobina 1 (Principale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-0" min="1" placeholder="Grammi consumati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
+
+            <!-- Slot Bobina 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="md:col-span-2">
+                <select id="print-spool-1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona Bobina 2 (Opzionale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-1" min="1" placeholder="Grammi consumati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
+
+            <!-- Slot Bobina 3 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="md:col-span-2">
+                <select id="print-spool-2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona Bobina 3 (Opzionale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-2" min="1" placeholder="Grammi consumati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
+
+            <!-- Slot Bobina 4 -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="md:col-span-2">
+                <select id="print-spool-3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona Bobina 4 (Opzionale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-3" min="1" placeholder="Grammi consumati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
           </div>
-          <div>
-            <label class="block text-xs font-medium text-slate-400 mb-1">Peso Consumato (grammi) *</label>
-            <input type="number" id="print-weight" required min="1" placeholder="Es. 85" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-amber-500">
-          </div>
-          <div class="md:col-span-3 flex justify-end">
+
+          <div class="flex justify-end pt-2">
             <button type="submit" class="bg-amber-600 hover:bg-amber-500 text-white px-6 py-2 rounded-lg font-medium text-sm transition flex items-center">
-              <i class="fa-solid fa-check mr-2"></i>Registra Stampa e Calcola Costo
+              <i class="fa-solid fa-check mr-2"></i>Registra Stampa e Calcola Costi
             </button>
           </div>
         </form>
@@ -239,15 +276,13 @@
               <tr>
                 <th class="p-3">Data</th>
                 <th class="p-3">Nome Stampa</th>
-                <th class="p-3">Filamento Utilizzato</th>
-                <th class="p-3">Consumo</th>
+                <th class="p-3">Filamenti Utilizzati</th>
+                <th class="p-3">Consumo Tot.</th>
                 <th class="p-3">Costo Stampa</th>
                 <th class="p-3 text-right">Azione</th>
               </tr>
             </thead>
-            <tbody id="prints-table-body" class="divide-y divide-slate-700">
-              <!-- Generato dinamicamente -->
-            </tbody>
+            <tbody id="prints-table-body" class="divide-y divide-slate-700"></tbody>
           </table>
         </div>
       </div>
@@ -295,9 +330,7 @@
           <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette Rapida *</label>
           <div class="space-y-2">
             <input type="text" id="edit-spool-color-name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
-            <div id="palette-edit" class="flex flex-wrap gap-1.5 p-2 bg-slate-900/60 border border-slate-700 rounded-lg">
-              <!-- Generato da JS -->
-            </div>
+            <div id="palette-edit" class="flex flex-wrap gap-1.5 p-2 bg-slate-900/60 border border-slate-700 rounded-lg"></div>
             <input type="hidden" id="edit-spool-color-code">
           </div>
         </div>
@@ -548,34 +581,53 @@
 
     function addPrint(e) {
       e.preventDefault();
-      const spoolId = document.getElementById('print-spool-id').value;
-      const weightUsed = parseInt(document.getElementById('print-weight').value);
-      const spool = spools.find(s => s.id === spoolId);
+      
+      let itemsUsed = [];
+      let totalWeightUsed = 0;
+      let totalPrintCost = 0;
 
-      if (!spool) {
-        alert('Seleziona una bobina valida!');
+      // Raccoglie i dati dai 4 slot di bobine
+      for (let i = 0; i < 4; i++) {
+        const spoolId = document.getElementById(`print-spool-${i}`).value;
+        const weightUsed = parseInt(document.getElementById(`print-weight-${i}`).value) || 0;
+
+        if (spoolId && weightUsed > 0) {
+          const spool = spools.find(s => s.id === spoolId);
+          if (spool) {
+            let costPerGram = 0;
+            const initW = spool.initialWeight || 1000;
+            if (spool.cost && spool.cost > 0) {
+              costPerGram = spool.cost / initW;
+            } else {
+              costPerGram = 20 / 1000;
+            }
+
+            const itemCost = weightUsed * costPerGram;
+            spool.weight = Math.max(0, spool.weight - weightUsed);
+
+            itemsUsed.push({
+              spoolName: `${spool.brand} ${spool.material} (${spool.colorName})`,
+              weightUsed: weightUsed
+            });
+
+            totalWeightUsed += weightUsed;
+            totalPrintCost += itemCost;
+          }
+        }
+      }
+
+      if (itemsUsed.length === 0) {
+        alert('Seleziona almeno una bobina e inserisci il peso consumato!');
         return;
       }
-
-      let costPerGram = 0;
-      const initW = spool.initialWeight || 1000;
-      if (spool.cost && spool.cost > 0) {
-        costPerGram = spool.cost / initW;
-      } else {
-        costPerGram = 20 / 1000;
-      }
-
-      const printCost = weightUsed * costPerGram;
-      spool.weight = Math.max(0, spool.weight - weightUsed);
 
       const newPrint = {
         id: Date.now().toString(),
         date: new Date().toLocaleDateString('it-IT'),
         name: document.getElementById('print-name').value.trim(),
-        spoolId: spoolId,
-        spoolName: `${spool.brand} ${spool.material} (${spool.colorName})`,
-        weightUsed: weightUsed,
-        cost: printCost
+        items: itemsUsed,
+        weightUsed: totalWeightUsed,
+        cost: totalPrintCost
       };
 
       prints.push(newPrint);
@@ -595,7 +647,7 @@
       renderSpools();
       renderPurchases();
       renderPrints();
-      populateSpoolSelect();
+      populateSpoolSelects();
     }
 
     function renderStats() {
@@ -715,14 +767,18 @@
       }
 
       prints.forEach(p => {
+        const itemsHtml = p.items 
+          ? p.items.map(i => `<div class="text-xs">• ${i.spoolName}: <span class="text-amber-300">-${i.weightUsed}g</span></div>`).join('')
+          : `<div class="text-xs text-slate-300">${p.spoolName || 'N/D'} (-${p.weightUsed}g)</div>`;
+
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td class="p-3 text-xs text-slate-400">${p.date}</td>
-          <td class="p-3 font-semibold text-slate-200">${p.name}</td>
-          <td class="p-3 text-slate-300">${p.spoolName}</td>
-          <td class="p-3 text-amber-400 font-medium">-${p.weightUsed} g</td>
-          <td class="p-3 font-bold text-cyan-400">${(p.cost || 0).toFixed(2)} €</td>
-          <td class="p-3 text-right">
+          <td class="p-3 text-xs text-slate-400 align-top">${p.date}</td>
+          <td class="p-3 font-semibold text-slate-200 align-top">${p.name}</td>
+          <td class="p-3 space-y-1 align-top">${itemsHtml}</td>
+          <td class="p-3 text-amber-400 font-medium align-top">-${p.weightUsed} g</td>
+          <td class="p-3 font-bold text-cyan-400 align-top">${(p.cost || 0).toFixed(2)} €</td>
+          <td class="p-3 text-right align-top">
             <button onclick="deletePrint('${p.id}')" class="text-slate-500 hover:text-rose-400 text-xs">
               <i class="fa-solid fa-trash"></i>
             </button>
@@ -732,15 +788,21 @@
       });
     }
 
-    function populateSpoolSelect() {
-      const select = document.getElementById('print-spool-id');
-      select.innerHTML = '<option value="">-- Seleziona Bobina --</option>';
-      spools.forEach(s => {
-        const opt = document.createElement('option');
-        opt.value = s.id;
-        opt.innerText = `${s.brand} ${s.material} - ${s.colorName} (${s.weight}g rimanenti)`;
-        select.appendChild(opt);
-      });
+    function populateSpoolSelects() {
+      for (let i = 0; i < 4; i++) {
+        const select = document.getElementById(`print-spool-${i}`);
+        if (!select) continue;
+        const currentVal = select.value;
+        select.innerHTML = `<option value="">-- Seleziona Bobina ${i + 1} ${i === 0 ? '(Principale)' : '(Opzionale)'} --</option>`;
+        
+        spools.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.innerText = `${s.brand} ${s.material} - ${s.colorName} (${s.weight}g rimanenti)`;
+          select.appendChild(opt);
+        });
+        select.value = currentVal;
+      }
     }
 
     function readAsBase64(file) {
