@@ -147,7 +147,7 @@
     <div id="view-purchases" class="space-y-6 hidden">
       <div class="bg-slate-800 p-5 rounded-xl border border-slate-700 shadow-lg">
         <h2 class="text-lg font-semibold mb-4 text-emerald-400 flex items-center">
-          <i class="fa-solid fa-cart-plus mr-2"></i>Registra Nuovo Acquisto
+          <i class="fa-solid fa-cart-plus mr-2"></i>Registra Nuovo Acquisto Libero
         </h2>
         <form id="form-purchase" onsubmit="addPurchase(event)" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <div>
@@ -183,19 +183,19 @@
       </div>
 
       <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-lg">
-        <div class="p-4 border-b border-slate-700">
-          <h3 class="font-semibold text-slate-200">Elenco Acquisti Effettuati</h3>
+        <div class="p-4 border-b border-slate-700 flex justify-between items-center">
+          <h3 class="font-semibold text-slate-200">Storico Acquisti (Manuali + Filamenti)</h3>
         </div>
         <div class="overflow-x-auto">
           <table class="w-full text-left text-sm text-slate-300">
             <thead class="bg-slate-900 text-slate-400 text-xs uppercase tracking-wider">
               <tr>
                 <th class="p-3">Data</th>
-                <th class="p-3">Fornitore</th>
+                <th class="p-3">Fornitore / Marca</th>
                 <th class="p-3">Articolo / Descrizione</th>
-                <th class="p-3">Kg</th>
+                <th class="p-3">Quantità</th>
                 <th class="p-3">Prezzo</th>
-                <th class="p-3">Note</th>
+                <th class="p-3">Note / Sorgente</th>
                 <th class="p-3 text-right">Azione</th>
               </tr>
             </thead>
@@ -594,7 +594,8 @@
         item: document.getElementById('purchase-item').value.trim(),
         kg: parseFloat(document.getElementById('purchase-kg').value) || 0,
         price: parseFloat(document.getElementById('purchase-price').value) || 0,
-        notes: document.getElementById('purchase-notes').value.trim()
+        notes: document.getElementById('purchase-notes').value.trim(),
+        manual: true
       };
 
       purchases.push(newPurchase);
@@ -685,8 +686,11 @@
       const totalWeight = spools.reduce((acc, s) => acc + s.weight, 0);
       document.getElementById('stat-total-weight').innerText = `${totalWeight} g`;
       document.getElementById('stat-total-prints').innerText = prints.length;
-      const totalSpent = purchases.reduce((acc, p) => acc + p.price, 0);
-      document.getElementById('stat-total-spent').innerText = `${totalSpent.toFixed(2)} €`;
+      
+      const manualSpent = purchases.reduce((acc, p) => acc + (p.price || 0), 0);
+      const spoolsSpent = spools.reduce((acc, s) => acc + (s.cost || 0), 0);
+      document.getElementById('stat-total-spent').innerText = `${(manualSpent + spoolsSpent).toFixed(2)} €`;
+
       const totalPrintCost = prints.reduce((acc, p) => acc + (p.cost || 0), 0);
       document.getElementById('stat-total-print-cost').innerText = `${totalPrintCost.toFixed(2)} €`;
     }
@@ -769,24 +773,56 @@
       const tbody = document.getElementById('purchases-table-body');
       tbody.innerHTML = '';
 
-      if (purchases.length === 0) {
+      let allPurchases = [];
+
+      purchases.forEach(p => {
+        allPurchases.push({
+          id: p.id,
+          date: p.date || '9999-12-31',
+          vendor: p.vendor,
+          item: p.item,
+          kg: `${p.kg} Kg`,
+          price: p.price,
+          notes: p.notes || 'Manuale',
+          manual: true
+        });
+      });
+
+      spools.forEach(s => {
+        if ((s.cost && s.cost > 0) || s.purchaseDate) {
+          allPurchases.push({
+            id: s.id,
+            date: s.purchaseDate || '9999-12-31',
+            vendor: s.brand,
+            item: `${s.type || 'Bobina'} ${s.material} - ${s.colorName} (${s.initialWeight || 1000}g)`,
+            kg: `${((s.initialWeight || 1000) / 1000).toFixed(1)} Kg`,
+            price: s.cost || 0,
+            notes: s.sku ? `SKU: ${s.sku}` : 'Da Inventario',
+            manual: false
+          });
+        }
+      });
+
+      // Ordinamento cronologico decrescente per data
+      allPurchases.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      if (allPurchases.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500">Nessun acquisto registrato.</td></tr>`;
         return;
       }
 
-      purchases.forEach(p => {
+      allPurchases.forEach(p => {
+        const displayDate = p.date === '9999-12-31' ? 'Non specificata' : p.date;
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td class="p-3 text-xs text-slate-400">${p.date}</td>
+          <td class="p-3 text-xs text-slate-400">${displayDate}</td>
           <td class="p-3 font-semibold text-slate-200">${p.vendor}</td>
           <td class="p-3">${p.item}</td>
-          <td class="p-3 text-slate-300">${p.kg} Kg</td>
+          <td class="p-3 text-slate-300">${p.kg}</td>
           <td class="p-3 font-bold text-emerald-400">${p.price.toFixed(2)} €</td>
-          <td class="p-3 text-xs text-slate-400">${p.notes || '-'}</td>
+          <td class="p-3 text-xs text-slate-400">${p.notes}</td>
           <td class="p-3 text-right">
-            <button onclick="deletePurchase('${p.id}')" class="text-slate-500 hover:text-rose-400 text-xs">
-              <i class="fa-solid fa-trash"></i>
-            </button>
+            ${p.manual ? `<button onclick="deletePurchase('${p.id}')" title="Elimina" class="text-slate-500 hover:text-rose-400 text-xs"><i class="fa-solid fa-trash"></i></button>` : `<span class="text-xs text-slate-600" title="Gestito in Inventario"><i class="fa-solid fa-lock"></i></span>`}
           </td>
         `;
         tbody.appendChild(tr);
