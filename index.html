@@ -11,22 +11,13 @@
 
   <!-- Header -->
   <header class="bg-slate-800/95 backdrop-blur border-b border-slate-700 sticky top-0 z-40 shadow-md">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center gap-3">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
       <div class="flex items-center space-x-2.5">
         <i class="fa-solid fa-cubes text-indigo-400 text-xl"></i>
         <h1 class="text-lg font-bold tracking-tight">Archivio Filamenti 3D</h1>
       </div>
-      <div class="flex items-center gap-2">
-        <button type="button" onclick="exportData()" title="Esporta backup JSON" aria-label="Esporta backup JSON" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-2 rounded-lg font-medium flex items-center">
-          <i class="fa-solid fa-download sm:mr-1.5"></i><span class="hidden sm:inline">Esporta</span>
-        </button>
-        <button type="button" onclick="document.getElementById('import-file').click()" title="Importa backup JSON" aria-label="Importa backup JSON" class="bg-slate-700 hover:bg-slate-600 text-slate-200 text-xs px-3 py-2 rounded-lg font-medium flex items-center">
-          <i class="fa-solid fa-upload sm:mr-1.5"></i><span class="hidden sm:inline">Importa</span>
-        </button>
-        <input type="file" id="import-file" accept="application/json,.json" class="hidden" onchange="importData(event)">
-        <div class="text-[11px] text-slate-400 hidden sm:flex items-center">
-          <i class="fa-solid fa-hard-drive text-emerald-400 mr-1"></i> Locale
-        </div>
+      <div class="text-[11px] text-slate-400 flex items-center">
+        <i class="fa-solid fa-hard-drive text-emerald-400 mr-1"></i> Locale
       </div>
     </div>
   </header>
@@ -34,7 +25,7 @@
   <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 space-y-6">
 
     <!-- Statistiche Dashboard -->
-    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+    <section class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
       <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-sm">
         <div class="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase">Bobine/Refill</div>
         <div id="stat-total-spools" class="text-xl sm:text-2xl font-bold text-indigo-400 mt-0.5">0</div>
@@ -51,28 +42,23 @@
         <div class="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase">Spesa Acquisti</div>
         <div id="stat-total-spent" class="text-xl sm:text-2xl font-bold text-rose-400 mt-0.5">0.00 €</div>
       </div>
-      <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-sm">
+      <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-sm col-span-2 sm:col-span-3 lg:col-span-1">
         <div class="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase">Costo Tot. Stampe</div>
         <div id="stat-total-print-cost" class="text-xl sm:text-2xl font-bold text-cyan-400 mt-0.5">0.00 €</div>
-      </div>
-      <div class="bg-slate-800 p-3 rounded-xl border border-slate-700 shadow-sm col-span-2 sm:col-span-1">
-        <div class="text-slate-400 text-[10px] sm:text-xs font-semibold uppercase">Costo Medio Stampa</div>
-        <div id="stat-avg-print-cost" class="text-xl sm:text-2xl font-bold text-sky-400 mt-0.5">0.00 €</div>
-        <div id="stat-cost-per-gram" class="text-[10px] text-slate-500 mt-0.5"></div>
       </div>
     </section>
 
     <!-- Navigazione Tab -->
-    <div class="grid grid-cols-3 gap-1.5 bg-slate-800 p-1.5 rounded-xl border border-slate-700 shadow-md" role="tablist">
-      <button onclick="switchTab('inventory')" id="tab-inventory" role="tab" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition bg-indigo-600 text-white flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 shadow">
+    <div class="grid grid-cols-3 gap-1.5 bg-slate-800 p-1.5 rounded-xl border border-slate-700 shadow-md">
+      <button onclick="switchTab('inventory')" id="tab-inventory" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition bg-indigo-600 text-white flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 shadow">
         <i class="fa-solid fa-boxes-stacked text-base sm:text-sm"></i>
         <span>Inventario</span>
       </button>
-      <button onclick="switchTab('purchases')" id="tab-purchases" role="tab" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition text-slate-300 hover:bg-slate-700/50 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
+      <button onclick="switchTab('purchases')" id="tab-purchases" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition text-slate-300 hover:bg-slate-700/50 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
         <i class="fa-solid fa-receipt text-base sm:text-sm"></i>
         <span>Acquisti</span>
       </button>
-      <button onclick="switchTab('prints')" id="tab-prints" role="tab" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition text-slate-300 hover:bg-slate-700/50 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
+      <button onclick="switchTab('prints')" id="tab-prints" class="py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition text-slate-300 hover:bg-slate-700/50 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2">
         <i class="fa-solid fa-print text-base sm:text-sm"></i>
         <span>Stampe</span>
       </button>
@@ -105,18 +91,18 @@
         </h2>
         <form id="form-spool" onsubmit="addSpool(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           <div>
-            <label for="spool-type" class="block text-xs font-medium text-slate-400 mb-1">Tipologia *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Tipologia *</label>
             <select id="spool-type" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
               <option value="Bobina">Bobina</option>
               <option value="Refill">Refill</option>
             </select>
           </div>
           <div>
-            <label for="spool-brand" class="block text-xs font-medium text-slate-400 mb-1">Marca / Produttore *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Marca / Produttore *</label>
             <input type="text" id="spool-brand" required placeholder="Es. Sunlu, Bambu Lab" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label for="spool-material" class="block text-xs font-medium text-slate-400 mb-1">Materiale *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Materiale *</label>
             <select id="spool-material" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
               <option value="PLA">PLA</option>
               <option value="PLA+">PLA+</option>
@@ -130,11 +116,11 @@
             </select>
           </div>
           <div>
-            <label for="spool-sku" class="block text-xs font-medium text-slate-400 mb-1">Codice Fornitore / SKU</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Codice Fornitore / SKU</label>
             <input type="text" id="spool-sku" placeholder="Es. SKU-12345" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div class="sm:col-span-2">
-            <label for="spool-color-name" class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette Rapida *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette Rapida *</label>
             <div class="space-y-2">
               <input type="text" id="spool-color-name" required placeholder="Es. Blu Elettrico, Bianco..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
               <div id="palette-spool" class="flex flex-wrap gap-2 p-2.5 bg-slate-900/60 border border-slate-700 rounded-lg"></div>
@@ -142,30 +128,30 @@
             </div>
           </div>
           <div>
-            <label for="spool-purchase-date" class="block text-xs font-medium text-slate-400 mb-1">Data d'Acquisto</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Data d'Acquisto</label>
             <input type="date" id="spool-purchase-date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label for="spool-weight" class="block text-xs font-medium text-slate-400 mb-1">Peso Iniziale/Attuale (g) *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Peso Iniziale/Attuale (g) *</label>
             <input type="number" id="spool-weight" required min="1" value="1000" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label for="spool-cost" class="block text-xs font-medium text-slate-400 mb-1">Costo (€)</label>
-            <input type="number" step="0.01" min="0" id="spool-cost" placeholder="Es. 19.99" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Costo (€)</label>
+            <input type="number" step="0.01" id="spool-cost" placeholder="Es. 19.99" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
-            <label for="spool-temp" class="block text-xs font-medium text-slate-400 mb-1">Temp. Ugello (°C)</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Temp. Ugello (°C)</label>
             <input type="text" id="spool-temp" placeholder="Es. 200 - 220" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div class="sm:col-span-2">
-            <label for="spool-image-file" class="block text-xs font-medium text-slate-400 mb-1">Foto (File o URL) <span class="text-slate-500">· i file vengono ridimensionati automaticamente</span></label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Foto (File o URL)</label>
             <div class="space-y-2">
               <input type="file" id="spool-image-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-300 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:bg-indigo-600 file:text-white file:text-xs">
-              <input type="url" id="spool-image-url" aria-label="URL immagine" placeholder="Incolla URL immagine..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <input type="url" id="spool-image-url" placeholder="Incolla URL immagine..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
             </div>
           </div>
           <div class="sm:col-span-2">
-            <label for="spool-notes" class="block text-xs font-medium text-slate-400 mb-1">Note</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Note</label>
             <input type="text" id="spool-notes" placeholder="Es. Ottima aderenza..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div class="sm:col-span-2 lg:col-span-4 flex justify-end mt-2">
@@ -176,87 +162,38 @@
         </form>
       </div>
 
-      <!-- FILTRI -->
-      <div class="bg-slate-800 p-3 sm:p-4 rounded-xl border border-slate-700 shadow-lg">
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-end">
-          <div class="sm:col-span-1">
-            <label for="filter-q" class="block text-xs font-medium text-slate-400 mb-1">Cerca</label>
-            <input type="search" id="filter-q" oninput="updateFilters()" placeholder="Marca, colore, SKU, note..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
-          </div>
-          <div>
-            <label for="filter-material" class="block text-xs font-medium text-slate-400 mb-1">Materiale</label>
-            <select id="filter-material" onchange="updateFilters()" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
-              <option value="">Tutti</option>
-            </select>
-          </div>
-          <label class="flex items-center space-x-2 text-sm text-slate-300 cursor-pointer pb-2">
-            <input type="checkbox" id="filter-low" onchange="updateFilters()" class="w-4 h-4 accent-rose-500">
-            <span>Solo scorta bassa (&lt; 20%)</span>
-          </label>
-        </div>
-      </div>
-
       <div id="spools-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
     </div>
 
     <!-- SEZIONE STORICO ACQUISTI -->
     <div id="view-purchases" class="space-y-5 hidden">
-      <!-- IMPORTA DA SCREENSHOT / EMAIL -->
-      <div class="bg-slate-800 p-4 sm:p-5 rounded-xl border border-slate-700 shadow-lg space-y-3">
-        <h2 class="text-base sm:text-lg font-semibold text-sky-400 flex items-center">
-          <i class="fa-solid fa-wand-magic-sparkles mr-2"></i>Importa da screenshot o email
-        </h2>
-        <p class="text-[11px] text-slate-400">Carica lo screenshot di un ordine (oppure incollalo con Ctrl+V nella casella di testo), o incolla il testo della mail di conferma. I dati riconosciuti compilano il modulo qui sotto: controllali prima di salvare.</p>
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-3">
-          <div>
-            <label for="import-image-file" class="block text-xs font-medium text-slate-400 mb-1">Screenshot dell'ordine</label>
-            <input type="file" id="import-image-file" accept="image/*" onchange="importFromScreenshot(event)" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1.5 text-xs text-slate-300 file:mr-2 file:py-1 file:px-2.5 file:rounded file:border-0 file:bg-sky-600 file:text-white file:text-xs">
-            <p class="text-[10px] text-slate-500 mt-1">Il riconoscimento del testo avviene sul tuo dispositivo. La prima volta scarica i dati della lingua (qualche MB), quindi serve connessione.</p>
-          </div>
-          <div>
-            <label for="import-text" class="block text-xs font-medium text-slate-400 mb-1">Testo della mail (o testo riconosciuto dallo screenshot)</label>
-            <textarea id="import-text" rows="5" placeholder="Incolla qui il testo della conferma d'ordine..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500"></textarea>
-          </div>
-        </div>
-        <div class="flex flex-col sm:flex-row gap-2">
-          <button type="button" onclick="analyzeImportText()" class="w-full sm:w-auto bg-sky-600 hover:bg-sky-500 text-white px-5 py-2.5 rounded-lg font-medium text-sm transition flex items-center justify-center shadow">
-            <i class="fa-solid fa-magnifying-glass mr-2"></i>Analizza testo
-          </button>
-          <button type="button" onclick="clearImport()" class="w-full sm:w-auto bg-slate-700 hover:bg-slate-600 text-slate-200 px-5 py-2.5 rounded-lg font-medium text-sm transition">
-            Svuota
-          </button>
-        </div>
-        <div id="import-status" class="hidden" role="status" aria-live="polite"></div>
-      </div>
-
       <div class="bg-slate-800 p-4 sm:p-5 rounded-xl border border-slate-700 shadow-lg">
-        <h2 class="text-base sm:text-lg font-semibold mb-1 text-emerald-400 flex items-center">
+        <h2 class="text-base sm:text-lg font-semibold mb-4 text-emerald-400 flex items-center">
           <i class="fa-solid fa-cart-plus mr-2"></i>Registra Nuovo Acquisto Libero
         </h2>
-        <p class="text-[11px] text-slate-400 mb-4">Le bobine inserite in inventario con un costo sono già conteggiate nella spesa: usa questo modulo solo per acquisti che non hai inserito in inventario (accessori, ordini cumulativi, ecc.).</p>
         <form id="form-purchase" onsubmit="addPurchase(event)" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
           <div>
-            <label for="purchase-date" class="block text-xs font-medium text-slate-400 mb-1">Data Acquisto *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Data Acquisto *</label>
             <input type="date" id="purchase-date" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
           </div>
           <div>
-            <label for="purchase-vendor" class="block text-xs font-medium text-slate-400 mb-1">Fornitore / Negozio *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Fornitore / Negozio *</label>
             <input type="text" id="purchase-vendor" required placeholder="Es. Amazon" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
           </div>
           <div>
-            <label for="purchase-item" class="block text-xs font-medium text-slate-400 mb-1">Descrizione / Articoli *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Descrizione / Articoli *</label>
             <input type="text" id="purchase-item" required placeholder="Es. 2x PLA Nero" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
           </div>
           <div>
-            <label for="purchase-kg" class="block text-xs font-medium text-slate-400 mb-1">Quantità totale (Kg)</label>
-            <input type="number" step="0.1" min="0" id="purchase-kg" value="1.0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Quantità totale (Kg)</label>
+            <input type="number" step="0.1" id="purchase-kg" value="1.0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
           </div>
           <div>
-            <label for="purchase-price" class="block text-xs font-medium text-slate-400 mb-1">Prezzo Totale (€) *</label>
-            <input type="number" step="0.01" min="0" id="purchase-price" required placeholder="Es. 24.90" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Prezzo Totale (€) *</label>
+            <input type="number" step="0.01" id="purchase-price" required placeholder="Es. 24.90" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
           </div>
           <div class="sm:col-span-2">
-            <label for="purchase-notes" class="block text-xs font-medium text-slate-400 mb-1">Note o N. Ordine</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Note o N. Ordine</label>
             <input type="text" id="purchase-notes" placeholder="Es. Ordine #12345" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500">
           </div>
           <div class="flex items-end">
@@ -290,7 +227,7 @@
       </div>
     </div>
 
-    <!-- SEZIONE REGISTRO STAMPE -->
+    <!-- SEZIONE REGISTRO STAMPE (Ottimizzata Mobile Senza Scroll Orizzontale) -->
     <div id="view-prints" class="space-y-5 hidden">
       <div class="bg-slate-800 p-4 sm:p-5 rounded-xl border border-slate-700 shadow-lg">
         <h2 class="text-base sm:text-lg font-semibold mb-4 text-amber-400 flex items-center">
@@ -299,33 +236,76 @@
         <form id="form-print" onsubmit="addPrint(event)" class="space-y-4">
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5">
             <div class="sm:col-span-2">
-              <label for="print-name" class="block text-xs font-medium text-slate-400 mb-1">Nome Stampa *</label>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Nome Stampa *</label>
               <input type="text" id="print-name" required placeholder="Es. Vaso Multicolor" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-              <label for="print-watts" class="block text-xs font-medium text-slate-400 mb-1">Potenza (W)</label>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Potenza (W)</label>
               <input type="number" id="print-watts" value="150" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-              <label for="print-hours" class="block text-xs font-medium text-slate-400 mb-1">Durata (Ore)</label>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Durata (Ore)</label>
               <input type="number" step="0.1" id="print-hours" value="2.0" min="0.1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
             </div>
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label for="print-kwh-rate" class="block text-xs font-medium text-slate-400 mb-1">Tariffa Energia (€/kWh)</label>
+              <label class="block text-xs font-medium text-slate-400 mb-1">Tariffa Energia (€/kWh)</label>
               <input type="number" step="0.01" id="print-kwh-rate" value="0.30" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-              <label for="print-fallback-price" class="block text-xs font-medium text-slate-400 mb-1">Prezzo di riserva (€/kg) <span class="text-slate-500">· usato se la bobina non ha un costo</span></label>
-              <input type="number" step="0.5" id="print-fallback-price" value="20" min="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
             </div>
           </div>
 
           <div class="space-y-3 pt-2 border-t border-slate-700/60">
-            <div class="block text-xs font-medium text-slate-400">Filamenti Utilizzati (da 1 a 4)</div>
-            <div id="print-slots" class="space-y-3"></div>
+            <label class="block text-xs font-medium text-slate-400">Filamenti Utilizzati (da 1 a 4)</label>
+            
+            <!-- Slot 1 -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="sm:col-span-2">
+                <select id="print-spool-0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona 1 (Principale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-0" min="1" placeholder="Grammi usati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
+
+            <!-- Slot 2 -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="sm:col-span-2">
+                <select id="print-spool-1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona 2 (Opzionale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-1" min="1" placeholder="Grammi usati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
+
+            <!-- Slot 3 -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="sm:col-span-2">
+                <select id="print-spool-2" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona 3 (Opzionale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-2" min="1" placeholder="Grammi usati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
+
+            <!-- Slot 4 -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700">
+              <div class="sm:col-span-2">
+                <select id="print-spool-3" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-select">
+                  <option value="">-- Seleziona 4 (Opzionale) --</option>
+                </select>
+              </div>
+              <div>
+                <input type="number" id="print-weight-3" min="1" placeholder="Grammi usati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500 spool-weight-input">
+              </div>
+            </div>
           </div>
 
           <div class="flex justify-end pt-2">
@@ -336,59 +316,46 @@
         </form>
       </div>
 
+      <!-- Contenitore Storico Stampe (Card Responsive Verticali) -->
       <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-lg">
         <div class="p-4 border-b border-slate-700">
           <h3 class="font-semibold text-slate-200 text-sm sm:text-base">Storico Lavori di Stampa e Costi</h3>
         </div>
-        <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs sm:text-sm text-slate-300 whitespace-nowrap sm:whitespace-normal">
-            <thead class="bg-slate-900 text-slate-400 text-[10px] sm:text-xs uppercase tracking-wider">
-              <tr>
-                <th class="p-3">Data</th>
-                <th class="p-3">Nome Stampa</th>
-                <th class="p-3">Filamenti</th>
-                <th class="p-3">Consumo</th>
-                <th class="p-3">Costo Totale</th>
-                <th class="p-3 text-right">Azione</th>
-              </tr>
-            </thead>
-            <tbody id="prints-table-body" class="divide-y divide-slate-700"></tbody>
-          </table>
-        </div>
+        <div id="prints-container" class="p-3 sm:p-4 space-y-3"></div>
       </div>
     </div>
 
   </main>
 
   <!-- MODALE MODIFICA BOBINA/REFILL -->
-  <div id="edit-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden" onclick="if(event.target===this) closeEditModal()">
-    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="edit-modal-title">
+  <div id="edit-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-4 hidden">
+    <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-lg w-full p-4 sm:p-6 shadow-2xl relative max-h-[92vh] overflow-y-auto">
       <div class="flex justify-between items-center mb-4 border-b border-slate-700 pb-3">
-        <h3 id="edit-modal-title" class="text-base sm:text-lg font-bold text-indigo-400 flex items-center">
+        <h3 class="text-base sm:text-lg font-bold text-indigo-400 flex items-center">
           <i class="fa-solid fa-pen-to-square mr-2"></i>Modifica Filamento
         </h3>
-        <button type="button" onclick="closeEditModal()" aria-label="Chiudi" class="text-slate-400 hover:text-white p-2">
+        <button onclick="closeEditModal()" class="text-slate-400 hover:text-white p-2">
           <i class="fa-solid fa-xmark text-xl"></i>
         </button>
       </div>
 
       <form id="form-edit-spool" onsubmit="saveEditSpool(event)" class="space-y-3.5">
         <input type="hidden" id="edit-spool-id">
-
+        
         <div class="grid grid-cols-3 gap-2.5">
           <div>
-            <label for="edit-spool-type" class="block text-xs font-medium text-slate-400 mb-1">Tipologia *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Tipologia *</label>
             <select id="edit-spool-type" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
               <option value="Bobina">Bobina</option>
               <option value="Refill">Refill</option>
             </select>
           </div>
           <div>
-            <label for="edit-spool-brand" class="block text-xs font-medium text-slate-400 mb-1">Marca *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Marca *</label>
             <input type="text" id="edit-spool-brand" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
           </div>
           <div>
-            <label for="edit-spool-material" class="block text-xs font-medium text-slate-400 mb-1">Materiale *</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Materiale *</label>
             <select id="edit-spool-material" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
               <option value="PLA">PLA</option>
               <option value="PLA+">PLA+</option>
@@ -404,7 +371,7 @@
         </div>
 
         <div>
-          <label for="edit-spool-color-name" class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette *</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Colore e Palette *</label>
           <div class="space-y-2">
             <input type="text" id="edit-spool-color-name" required class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
             <div id="palette-edit" class="flex flex-wrap gap-2 p-2 bg-slate-900/60 border border-slate-700 rounded-lg"></div>
@@ -413,50 +380,45 @@
         </div>
 
         <div>
-          <label for="edit-spool-sku" class="block text-xs font-medium text-slate-400 mb-1">SKU</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1">SKU</label>
           <input type="text" id="edit-spool-sku" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
         </div>
 
         <div>
-          <label for="edit-spool-purchase-date" class="block text-xs font-medium text-slate-400 mb-1">Data d'Acquisto</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Data d'Acquisto</label>
           <input type="date" id="edit-spool-purchase-date" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
         </div>
 
         <div class="grid grid-cols-3 gap-2">
           <div>
-            <label for="edit-spool-weight" class="block text-xs font-medium text-slate-400 mb-1">Rim. (g)</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Rim. (g)</label>
             <input type="number" id="edit-spool-weight" required min="0" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
           </div>
           <div>
-            <label for="edit-spool-initial-weight" class="block text-xs font-medium text-slate-400 mb-1">Iniz. (g)</label>
+            <label class="block text-xs font-medium text-slate-400 mb-1">Iniz. (g)</label>
             <input type="number" id="edit-spool-initial-weight" required min="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
           </div>
           <div>
-            <label for="edit-spool-cost" class="block text-xs font-medium text-slate-400 mb-1">Costo (€)</label>
-            <input type="number" step="0.01" min="0" id="edit-spool-cost" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
+            <label class="block text-xs font-medium text-slate-400 mb-1">Costo (€)</label>
+            <input type="number" step="0.01" id="edit-spool-cost" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-sm text-white">
           </div>
         </div>
 
         <div>
-          <label for="edit-spool-temp" class="block text-xs font-medium text-slate-400 mb-1">Temp. Ugello (°C)</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Temp. Ugello (°C)</label>
           <input type="text" id="edit-spool-temp" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
         </div>
 
         <div>
-          <label for="edit-spool-image-file" class="block text-xs font-medium text-slate-400 mb-1">Foto (File o URL)</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Foto (File o URL)</label>
           <div class="space-y-2">
-            <div id="edit-image-preview" class="hidden items-center space-x-3"></div>
             <input type="file" id="edit-spool-image-file" accept="image/*" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-slate-300">
-            <input type="url" id="edit-spool-image-url" aria-label="URL immagine" placeholder="URL..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
-            <label class="flex items-center space-x-2 text-xs text-slate-300 cursor-pointer">
-              <input type="checkbox" id="edit-spool-image-remove" class="w-4 h-4 accent-rose-500">
-              <span>Rimuovi la foto attuale</span>
-            </label>
+            <input type="url" id="edit-spool-image-url" placeholder="URL..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
           </div>
         </div>
 
         <div>
-          <label for="edit-spool-notes" class="block text-xs font-medium text-slate-400 mb-1">Note</label>
+          <label class="block text-xs font-medium text-slate-400 mb-1">Note</label>
           <input type="text" id="edit-spool-notes" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white">
         </div>
 
@@ -473,7 +435,6 @@
   </div>
 
   <script>
-    // ---------- Costanti ----------
     const COLOR_PALETTE = [
       { name: 'Nero', hex: '#111827' },
       { name: 'Bianco', hex: '#f8fafc' },
@@ -494,108 +455,19 @@
       { name: 'Rame', hex: '#b45309' },
       { name: 'Trasparente', hex: '#e2e8f0' }
     ];
-    const KEYS = { spools: 'f3d_spools', purchases: 'f3d_purchases', prints: 'f3d_prints' };
-    const LOW_STOCK_PERCENT = 20;
 
-    // ---------- Utilità ----------
-    function esc(v) {
-      return String(v ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-    }
-    function safeImg(src) {
-      return typeof src === 'string' && (/^data:image\//i.test(src) || /^https?:\/\//i.test(src)) ? src : '';
-    }
-    function num(v, fallback = 0) {
-      const n = parseFloat(v);
-      return Number.isFinite(n) ? n : fallback;
-    }
-    function euro(n) { return (Number(n) || 0).toFixed(2) + ' €'; }
-    function uid() { return Date.now().toString() + Math.floor(Math.random() * 1000).toString().padStart(3, '0'); }
-    function todayISO() {
-      const d = new Date();
-      return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
-    }
-    function fmtDate(iso) {
-      if (!iso) return 'Non specificata';
-      const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
-      return m ? `${m[3]}/${m[2]}/${m[1]}` : iso;
-    }
+    let spools = JSON.parse(localStorage.getItem('f3d_spools')) || [];
+    let purchases = JSON.parse(localStorage.getItem('f3d_purchases')) || [];
+    let prints = JSON.parse(localStorage.getItem('f3d_prints')) || [];
 
-    function loadList(key) {
-      const raw = localStorage.getItem(key);
-      if (!raw) return [];
-      try {
-        const v = JSON.parse(raw);
-        return Array.isArray(v) ? v : [];
-      } catch (err) {
-        // Dati corrotti: li conservo in una chiave di backup per non perderli.
-        console.error('Dati corrotti in', key, err);
-        try { localStorage.setItem(key + '_corrotto_' + Date.now(), raw); } catch (_) {}
-        return [];
-      }
-    }
-
-    let spools = loadList(KEYS.spools);
-    let purchases = loadList(KEYS.purchases);
-    let prints = loadList(KEYS.prints);
-    const filters = { q: '', material: '', low: false };
-
-    function saveData() {
-      try {
-        localStorage.setItem(KEYS.spools, JSON.stringify(spools));
-        localStorage.setItem(KEYS.purchases, JSON.stringify(purchases));
-        localStorage.setItem(KEYS.prints, JSON.stringify(prints));
-      } catch (err) {
-        console.error(err);
-        alert('Impossibile salvare: spazio del browser esaurito. Esporta un backup, poi elimina o riduci le foto più pesanti.');
-      }
-      renderAll();
-    }
-
-    // Ridimensiona le immagini per non saturare il localStorage (~5 MB)
-    function resizeImage(file, maxSize = 600, quality = 0.7) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onerror = () => reject(reader.error);
-        reader.onload = () => {
-          const img = new Image();
-          img.onerror = () => reject(new Error('Immagine non valida'));
-          img.onload = () => {
-            const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-            const canvas = document.createElement('canvas');
-            canvas.width = Math.max(1, Math.round(img.width * scale));
-            canvas.height = Math.max(1, Math.round(img.height * scale));
-            const ctx = canvas.getContext('2d');
-            ctx.fillStyle = '#ffffff';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL('image/jpeg', quality));
-          };
-          img.src = reader.result;
-        };
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function pct(s) {
-      const init = s.initialWeight || 1000;
-      return Math.round((s.weight / init) * 100);
-    }
-    function isLow(s) { return pct(s) < LOW_STOCK_PERCENT; }
-
-    // ---------- Avvio ----------
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('purchase-date').value = todayISO();
-      document.getElementById('spool-purchase-date').value = todayISO();
-      buildPrintSlots();
+      document.getElementById('purchase-date').valueAsDate = new Date();
+      document.getElementById('spool-purchase-date').valueAsDate = new Date();
       buildColorPalette('palette-spool', 'spool-color-code', 'spool-color-name', '#3b82f6');
       renderAll();
     });
 
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape') closeEditModal();
-    });
-
-    function buildColorPalette(containerId, hiddenInputId, nameInputId, selectedHex) {
+    function buildColorPalette(containerId, hiddenInputId, nameInputId, defaultHex) {
       const container = document.getElementById(containerId);
       container.innerHTML = '';
 
@@ -603,10 +475,9 @@
         const btn = document.createElement('button');
         btn.type = 'button';
         btn.title = c.name;
-        btn.setAttribute('aria-label', c.name);
-        btn.className = `w-8 h-8 rounded-full border-2 transition transform hover:scale-110 focus:outline-none focus:border-indigo-400 ${c.hex === selectedHex ? 'border-indigo-400 scale-110 shadow-lg' : 'border-slate-700'}`;
+        btn.className = `w-8 h-8 rounded-full border-2 transition transform hover:scale-110 focus:outline-none ${c.hex === defaultHex ? 'border-indigo-400 scale-110 shadow-lg' : 'border-slate-700'}`;
         btn.style.backgroundColor = c.hex;
-
+        
         btn.onclick = () => {
           document.getElementById(hiddenInputId).value = c.hex;
           document.getElementById(nameInputId).value = c.name;
@@ -618,133 +489,39 @@
       });
     }
 
-    function buildPrintSlots() {
-      const wrap = document.getElementById('print-slots');
-      wrap.innerHTML = '';
-      for (let i = 0; i < 4; i++) {
-        const row = document.createElement('div');
-        row.className = 'grid grid-cols-1 sm:grid-cols-3 gap-2 bg-slate-900/50 p-3 rounded-lg border border-slate-700';
-        row.innerHTML = `
-          <div class="sm:col-span-2">
-            <select id="print-spool-${i}" aria-label="Filamento ${i + 1}" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-              <option value="">-- Seleziona ${i + 1} ${i === 0 ? '(Principale)' : '(Opzionale)'} --</option>
-            </select>
-          </div>
-          <div>
-            <input type="number" id="print-weight-${i}" min="1" aria-label="Grammi usati dal filamento ${i + 1}" placeholder="Grammi usati" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
-          </div>`;
-        wrap.appendChild(row);
-      }
+    function saveData() {
+      localStorage.setItem('f3d_spools', JSON.stringify(spools));
+      localStorage.setItem('f3d_purchases', JSON.stringify(purchases));
+      localStorage.setItem('f3d_prints', JSON.stringify(prints));
+      renderAll();
     }
 
     function switchTab(tab) {
       ['inventory', 'purchases', 'prints'].forEach(t => {
         document.getElementById(`view-${t}`).classList.add('hidden');
         const btn = document.getElementById(`tab-${t}`);
-        btn.setAttribute('aria-selected', 'false');
         btn.className = "py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition text-slate-300 hover:bg-slate-700/50 flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2";
       });
 
       document.getElementById(`view-${tab}`).classList.remove('hidden');
       const activeBtn = document.getElementById(`tab-${tab}`);
-      activeBtn.setAttribute('aria-selected', 'true');
       activeBtn.className = "py-2.5 px-2 rounded-lg font-medium text-xs sm:text-sm transition bg-indigo-600 text-white flex flex-col sm:flex-row items-center justify-center space-y-1 sm:space-y-0 sm:space-x-2 shadow";
-    }
-
-    // ---------- Backup ----------
-    function exportData() {
-      const payload = { app: 'archivio-filamenti-3d', version: 2, exportedAt: new Date().toISOString(), spools, purchases, prints };
-      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `archivio-filamenti-${todayISO()}.json`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-    }
-
-    // Aggiunge i record del file che non hanno un id già presente
-    function mergeById(existing, incoming) {
-      const ids = new Set(existing.map(x => x && x.id));
-      const added = incoming.filter(x => x && x.id !== undefined && !ids.has(x.id));
-      return existing.concat(added);
-    }
-
-    function importData(e) {
-      const file = e.target.files && e.target.files[0];
-      e.target.value = '';
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onerror = () => alert('Impossibile leggere il file.');
-      reader.onload = () => {
-        let data;
-        try { data = JSON.parse(reader.result); } catch (_) { alert('File non valido: non è un JSON.'); return; }
-        if (!data || !Array.isArray(data.spools) || !Array.isArray(data.purchases) || !Array.isArray(data.prints)) {
-          alert('File non valido: struttura non riconosciuta.');
-          return;
-        }
-        const summary = `Il file contiene ${data.spools.length} filamenti, ${data.purchases.length} acquisti e ${data.prints.length} stampe.`;
-        const hasExisting = spools.length || purchases.length || prints.length;
-        let mode = 'replace';
-        if (hasExisting) {
-          if (confirm(`${summary}\n\nOK = UNISCI ai dati esistenti (i record già presenti vengono ignorati)\nAnnulla = altre opzioni`)) {
-            mode = 'merge';
-          } else if (!confirm('Vuoi invece SOSTITUIRE tutti i dati attuali con quelli del file?\n\nOK = Sostituisci\nAnnulla = non importare nulla')) {
-            return;
-          }
-        } else if (!confirm(`${summary}\n\nImportare?`)) {
-          return;
-        }
-
-        if (mode === 'merge') {
-          const before = spools.length + purchases.length + prints.length;
-          spools = mergeById(spools, data.spools);
-          purchases = mergeById(purchases, data.purchases);
-          prints = mergeById(prints, data.prints);
-          const added = spools.length + purchases.length + prints.length - before;
-          saveData();
-          alert(`Importazione completata: ${added} nuovi record aggiunti.`);
-        } else {
-          spools = data.spools;
-          purchases = data.purchases;
-          prints = data.prints;
-          saveData();
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    // ---------- Inventario ----------
-    function updateFilters() {
-      filters.q = document.getElementById('filter-q').value;
-      filters.material = document.getElementById('filter-material').value;
-      filters.low = document.getElementById('filter-low').checked;
-      renderSpools();
-    }
-
-    async function pickImage(fileInput, urlValue) {
-      if (fileInput.files && fileInput.files[0]) {
-        try {
-          return await resizeImage(fileInput.files[0]);
-        } catch (err) {
-          alert('Non sono riuscito a leggere la foto: ' + err.message);
-          return null;
-        }
-      }
-      return urlValue;
     }
 
     async function addSpool(e) {
       e.preventDefault();
+      
+      const fileInput = document.getElementById('spool-image-file');
+      const urlInput = document.getElementById('spool-image-url').value.trim();
+      let imageData = urlInput;
 
-      const image = await pickImage(document.getElementById('spool-image-file'), document.getElementById('spool-image-url').value.trim());
-      if (image === null) return;
+      if (fileInput.files && fileInput.files[0]) {
+        imageData = await readAsBase64(fileInput.files[0]);
+      }
 
       const initialWeight = parseInt(document.getElementById('spool-weight').value) || 1000;
-      spools.push({
-        id: uid(),
+      const newSpool = {
+        id: Date.now().toString(),
         type: document.getElementById('spool-type').value,
         brand: document.getElementById('spool-brand').value.trim(),
         material: document.getElementById('spool-material').value,
@@ -754,16 +531,16 @@
         purchaseDate: document.getElementById('spool-purchase-date').value || '',
         weight: initialWeight,
         initialWeight: initialWeight,
-        cost: num(document.getElementById('spool-cost').value),
+        cost: parseFloat(document.getElementById('spool-cost').value) || 0,
         temp: document.getElementById('spool-temp').value.trim(),
         notes: document.getElementById('spool-notes').value.trim(),
-        image: image
-      });
+        image: imageData
+      };
 
+      spools.push(newSpool);
       saveData();
       document.getElementById('form-spool').reset();
-      document.getElementById('spool-purchase-date').value = todayISO();
-      document.getElementById('spool-color-code').value = '#3b82f6';
+      document.getElementById('spool-purchase-date').valueAsDate = new Date();
       buildColorPalette('palette-spool', 'spool-color-code', 'spool-color-name', '#3b82f6');
     }
 
@@ -779,24 +556,13 @@
       document.getElementById('edit-spool-color-code').value = spool.colorCode || '#3b82f6';
       document.getElementById('edit-spool-sku').value = spool.sku || '';
       document.getElementById('edit-spool-purchase-date').value = spool.purchaseDate || '';
-      document.getElementById('edit-spool-weight').value = spool.weight ?? 1000;
+      document.getElementById('edit-spool-weight').value = spool.weight || 1000;
       document.getElementById('edit-spool-initial-weight').value = spool.initialWeight || 1000;
       document.getElementById('edit-spool-cost').value = spool.cost || '';
       document.getElementById('edit-spool-temp').value = spool.temp || '';
       document.getElementById('edit-spool-notes').value = spool.notes || '';
-      document.getElementById('edit-spool-image-url').value = spool.image && /^https?:\/\//i.test(spool.image) ? spool.image : '';
+      document.getElementById('edit-spool-image-url').value = spool.image && spool.image.startsWith('http') ? spool.image : '';
       document.getElementById('edit-spool-image-file').value = '';
-      document.getElementById('edit-spool-image-remove').checked = false;
-
-      const preview = document.getElementById('edit-image-preview');
-      const img = safeImg(spool.image);
-      if (img) {
-        preview.className = 'flex items-center space-x-3';
-        preview.innerHTML = `<img src="${esc(img)}" alt="Foto attuale" class="w-14 h-14 object-contain bg-slate-950 rounded border border-slate-700"><span class="text-[11px] text-slate-400">Foto attuale</span>`;
-      } else {
-        preview.className = 'hidden';
-        preview.innerHTML = '';
-      }
 
       buildColorPalette('palette-edit', 'edit-spool-color-code', 'edit-spool-color-name', spool.colorCode || '#3b82f6');
       document.getElementById('edit-modal').classList.remove('hidden');
@@ -815,12 +581,8 @@
       const fileInput = document.getElementById('edit-spool-image-file');
       const urlInput = document.getElementById('edit-spool-image-url').value.trim();
 
-      if (document.getElementById('edit-spool-image-remove').checked) {
-        spool.image = '';
-      } else if (fileInput.files && fileInput.files[0]) {
-        const img = await pickImage(fileInput, '');
-        if (img === null) return;
-        spool.image = img;
+      if (fileInput.files && fileInput.files[0]) {
+        spool.image = await readAsBase64(fileInput.files[0]);
       } else if (urlInput) {
         spool.image = urlInput;
       }
@@ -832,9 +594,9 @@
       spool.colorCode = document.getElementById('edit-spool-color-code').value;
       spool.sku = document.getElementById('edit-spool-sku').value.trim();
       spool.purchaseDate = document.getElementById('edit-spool-purchase-date').value;
-      spool.weight = Math.max(0, parseInt(document.getElementById('edit-spool-weight').value) || 0);
+      spool.weight = parseInt(document.getElementById('edit-spool-weight').value) || 0;
       spool.initialWeight = parseInt(document.getElementById('edit-spool-initial-weight').value) || 1000;
-      spool.cost = num(document.getElementById('edit-spool-cost').value);
+      spool.cost = parseFloat(document.getElementById('edit-spool-cost').value) || 0;
       spool.temp = document.getElementById('edit-spool-temp').value.trim();
       spool.notes = document.getElementById('edit-spool-notes').value.trim();
 
@@ -843,44 +605,29 @@
     }
 
     function deleteSpool(id) {
-      const spool = spools.find(s => s.id === id);
-      if (!spool) return;
-      if (!confirm('Eliminare questo filamento dall\'inventario?')) return;
-
-      // La spesa della bobina sparirebbe dalle statistiche: offro di conservarla nello storico acquisti.
-      if (spool.cost > 0 && confirm('Vuoi mantenere il costo di questa bobina nello storico acquisti (così la spesa totale non cambia)?')) {
-        purchases.push({
-          id: uid(),
-          date: spool.purchaseDate || todayISO(),
-          vendor: spool.brand || 'N/D',
-          item: `${spool.type || 'Bobina'} ${spool.material} - ${spool.colorName} (${spool.initialWeight || 1000}g)`,
-          kg: (spool.initialWeight || 1000) / 1000,
-          price: spool.cost,
-          notes: spool.sku ? `SKU: ${spool.sku} (da inventario eliminato)` : 'Da inventario eliminato',
-          manual: true
-        });
+      if (confirm('Eliminare questo filamento dall\'inventario?')) {
+        spools = spools.filter(s => s.id !== id);
+        saveData();
       }
-      spools = spools.filter(s => s.id !== id);
-      saveData();
     }
 
-    // ---------- Acquisti ----------
     function addPurchase(e) {
       e.preventDefault();
-      purchases.push({
-        id: uid(),
+      const newPurchase = {
+        id: Date.now().toString(),
         date: document.getElementById('purchase-date').value,
         vendor: document.getElementById('purchase-vendor').value.trim(),
         item: document.getElementById('purchase-item').value.trim(),
-        kg: num(document.getElementById('purchase-kg').value),
-        price: num(document.getElementById('purchase-price').value),
+        kg: parseFloat(document.getElementById('purchase-kg').value) || 0,
+        price: parseFloat(document.getElementById('purchase-price').value) || 0,
         notes: document.getElementById('purchase-notes').value.trim(),
         manual: true
-      });
+      };
 
+      purchases.push(newPurchase);
       saveData();
       document.getElementById('form-purchase').reset();
-      document.getElementById('purchase-date').value = todayISO();
+      document.getElementById('purchase-date').valueAsDate = new Date();
     }
 
     function deletePurchase(id) {
@@ -890,429 +637,80 @@
       }
     }
 
-    // ---------- Importa da screenshot / testo email ----------
-    const MONTHS = {
-      gennaio: 1, gen: 1, febbraio: 2, feb: 2, marzo: 3, mar: 3, aprile: 4, apr: 4, maggio: 5, mag: 5,
-      giugno: 6, giu: 6, luglio: 7, lug: 7, agosto: 8, ago: 8, settembre: 9, set: 9, sett: 9,
-      ottobre: 10, ott: 10, novembre: 11, nov: 11, dicembre: 12, dic: 12,
-      january: 1, jan: 1, february: 2, march: 3, april: 4, may: 5, june: 6, jun: 6, july: 7, jul: 7,
-      august: 8, aug: 8, september: 9, sep: 9, october: 10, oct: 10, december: 12, dec: 12
-    };
-    const KNOWN_VENDORS = ['Amazon', 'Bambu Lab', 'Sunlu', 'Eryone', 'Elegoo', 'Creality', 'Anycubic', 'eSun', 'Polymaker',
-      'Prusament', 'Prusa', 'Overture', 'Geeetech', 'AliExpress', 'eBay', 'Kingroon', 'Jayo', 'Flashforge', 'Filamentive',
-      'Fillamentum', '3DJake', 'Print-Me', 'Siraya Tech', 'Kexcelled', 'Tinmorry', 'Atomic Filament', 'Paramount 3D',
-      'Reprapper', 'Voxelab', 'Snapmaker', 'Raise3D', 'Formfutura', 'Fiberlogy', 'Das Filament', 'Arianeplast', 'Sovol',
-      'Artillery', 'Nanovia', 'Extrudr'];
-    const AMOUNT_RE = /(\d{1,3}(?:\.\d{3})+,\d{2}|\d{1,3}(?:,\d{3})+\.\d{2}|\d+[.,]\d{2})(?!\d)/g;
-    const GENERIC_MAIL_DOMAINS = /^(gmail|googlemail|outlook|hotmail|live|yahoo|icloud|me|libero|virgilio|tiscali|pec|msn|aruba|alice|fastweb)$/i;
-
-    function parseAmount(s) {
-      s = String(s).trim();
-      const lastC = s.lastIndexOf(',');
-      const lastD = s.lastIndexOf('.');
-      if (lastC > -1 && lastD > -1) {
-        return lastC > lastD
-          ? parseFloat(s.replace(/\./g, '').replace(',', '.'))
-          : parseFloat(s.replace(/,/g, ''));
-      }
-      if (lastC > -1) return parseFloat(s.replace(',', '.'));
-      return parseFloat(s);
-    }
-
-    function amountsIn(line) {
-      return [...line.matchAll(AMOUNT_RE)].map(m => parseAmount(m[1])).filter(Number.isFinite);
-    }
-
-    function findDates(text) {
-      const out = [];
-      const push = (d, m, y, idx) => {
-        y = +y; d = +d; m = +m;
-        if (y < 100) y += 2000;
-        if (y >= 2000 && y <= 2100 && m >= 1 && m <= 12 && d >= 1 && d <= 31) {
-          out.push({ iso: `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`, idx });
-        }
-      };
-      let m;
-      const r1 = /\b(\d{1,2})[\/\-.](\d{1,2})[\/\-.](\d{4}|\d{2})\b/g;
-      while ((m = r1.exec(text))) push(m[1], m[2], m[3], m.index);
-      const r2 = /\b(\d{4})-(\d{2})-(\d{2})\b/g;
-      while ((m = r2.exec(text))) push(m[3], m[2], m[1], m.index);
-      const r3 = /\b(\d{1,2})(?:º|°)?\s+([A-Za-zÀ-ÿ]{3,})\.?,?\s+(\d{4})\b/g;
-      while ((m = r3.exec(text))) {
-        const mo = MONTHS[m[2].toLowerCase()];
-        if (mo) push(m[1], mo, m[3], m.index);
-      }
-      const r4 = /\b([A-Za-z]{3,})\.?\s+(\d{1,2})(?:st|nd|rd|th)?,?\s+(\d{4})\b/g;
-      while ((m = r4.exec(text))) {
-        const mo = MONTHS[m[1].toLowerCase()];
-        if (mo) push(m[2], mo, m[3], m.index);
-      }
-      return out.sort((a, b) => a.idx - b.idx);
-    }
-
-    function parseOrderText(raw) {
-      const text = String(raw).replace(/\r/g, '').replace(/ /g, ' ');
-      const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-      const res = { date: '', vendor: '', item: '', kg: null, price: null, priceEstimated: false, order: '' };
-
-      // Totale: righe con "totale / total / da pagare", escludendo subtotali, spedizione, sconti
-      const TOTAL_RE = /(totale|total|da pagare|importo|amount due)/i;
-      const EXCL_RE = /(subtotale|sub-?total|spedizione|shipping|consegna|sconto|discount|risparm)/i;
-      const totals = [];
-      lines.forEach((line, i) => {
-        if (!TOTAL_RE.test(line) || EXCL_RE.test(line)) return;
-        let amts = amountsIn(line);
-        if (amts.length === 0 && lines[i + 1] && lines[i + 1].length < 40 && !EXCL_RE.test(lines[i + 1])) {
-          amts = amountsIn(lines[i + 1]);
-        }
-        totals.push(...amts);
-      });
-      if (totals.length) {
-        res.price = Math.max(...totals);
-      } else {
-        const withCurrency = [];
-        lines.forEach(line => { if (/€|EUR|euro/i.test(line)) withCurrency.push(...amountsIn(line)); });
-        if (withCurrency.length) { res.price = Math.max(...withCurrency); res.priceEstimated = true; }
-      }
-
-      // Data: preferisco quella preceduta da parole come "ordine / effettuato / data"
-      const dates = findDates(text);
-      if (dates.length) {
-        const KEY = /(ordin|order|acquist|effettuat|placed|data|purchase)/i;
-        const preferred = dates.find(d => KEY.test(text.slice(Math.max(0, d.idx - 60), d.idx)));
-        res.date = (preferred || dates[0]).iso;
-      }
-
-      // Numero ordine
-      const amazon = text.match(/\b\d{3}-\d{7}-\d{7}\b/);
-      if (amazon) {
-        res.order = amazon[0];
-      } else {
-        const re = /(?:ordine|order)\s*(?:number|numero|n[°.o]*|id|#)?\s*[:#]?\s*#?\s*([A-Za-z0-9][A-Za-z0-9\-_]{4,})/gi;
-        let mm;
-        while ((mm = re.exec(text))) {
-          if (/\d/.test(mm[1])) { res.order = mm[1]; break; }
-        }
-      }
-
-      // Fornitore: prima i nomi noti (il primo che compare), poi il dominio dell'indirizzo mail / sito
-      const lower = text.toLowerCase();
-      let best = null;
-      KNOWN_VENDORS.forEach(v => {
-        const idx = lower.indexOf(v.toLowerCase());
-        if (idx === -1) return;
-        if (!best || idx < best.idx || (idx === best.idx && v.length > best.name.length)) best = { name: v, idx };
-      });
-      if (best) {
-        res.vendor = best.name;
-      } else {
-        const domains = [...text.matchAll(/@([A-Za-z0-9-]+)\.[A-Za-z.]{2,}/g)].map(m => m[1])
-          .concat([...text.matchAll(/www\.([A-Za-z0-9-]+)\./g)].map(m => m[1]));
-        const d = domains.find(x => !GENERIC_MAIL_DOMAINS.test(x));
-        if (d) res.vendor = d.charAt(0).toUpperCase() + d.slice(1);
-      }
-
-      // Articolo: prima riga che parla di filamento/materiale
-      const ITEM_RE = /\b(pla\+?|petg|abs|asa|tpu|nylon|policarbonato|filament\w*)\b/i;
-      const itemLine = lines.find(l => ITEM_RE.test(l) && l.length <= 160 && !/^(da|from|a|to|oggetto|subject)\s*:/i.test(l));
-      if (itemLine) res.item = itemLine.replace(/\s{2,}/g, ' ');
-
-      // Quantità in kg: peso della prima confezione x quantità
-      let weight = null;
-      const wre = /(\d+(?:[.,]\d+)?)\s*(kg|g)\b/gi;
-      let wm;
-      while ((wm = wre.exec(text))) {
-        const v = parseFloat(wm[1].replace(',', '.'));
-        const kg = wm[2].toLowerCase() === 'kg' ? v : v / 1000;
-        if (kg >= 0.1 && kg <= 10) { weight = kg; break; }
-      }
-      if (weight !== null) {
-        const q = text.match(/(?:quantit[àa]|qta|qty|quantity)\s*[:.]?\s*(\d{1,2})\b/i) || text.match(/\b(\d{1,2})\s*[x×]\s*\S/i) || text.match(/\b[x×]\s*(\d{1,2})\b/i);
-        const qty = q ? Math.max(1, parseInt(q[1])) : 1;
-        res.kg = Math.round(weight * qty * 100) / 100;
-      }
-
-      return res;
-    }
-
-    function setImportStatus(msg, kind) {
-      const el = document.getElementById('import-status');
-      const styles = {
-        info: 'bg-slate-900/60 border-slate-700 text-slate-300',
-        ok: 'bg-emerald-950/60 border-emerald-800 text-emerald-200',
-        warn: 'bg-amber-950/60 border-amber-800 text-amber-200',
-        error: 'bg-rose-950/60 border-rose-800 text-rose-200'
-      };
-      el.className = 'text-xs rounded-lg px-3 py-2 border ' + (styles[kind] || styles.info);
-      el.textContent = msg;
-    }
-
-    function clearImport() {
-      document.getElementById('import-text').value = '';
-      document.getElementById('import-image-file').value = '';
-      const el = document.getElementById('import-status');
-      el.className = 'hidden';
-      el.textContent = '';
-    }
-
-    function analyzeImportText() {
-      const text = document.getElementById('import-text').value;
-      if (!text.trim()) {
-        setImportStatus('Incolla prima il testo della mail oppure carica uno screenshot.', 'warn');
-        return;
-      }
-      const r = parseOrderText(text);
-
-      const form = document.getElementById('form-purchase');
-      form.reset();
-      document.getElementById('purchase-date').value = r.date || todayISO();
-      if (r.vendor) document.getElementById('purchase-vendor').value = r.vendor;
-      if (r.item) document.getElementById('purchase-item').value = r.item;
-      if (r.kg !== null) document.getElementById('purchase-kg').value = r.kg;
-      if (r.price !== null) document.getElementById('purchase-price').value = r.price.toFixed(2);
-      if (r.order) document.getElementById('purchase-notes').value = `Ordine ${r.order}`;
-
-      const found = [];
-      const missing = [];
-      (r.date ? found : missing).push('data');
-      (r.vendor ? found : missing).push('fornitore');
-      (r.item ? found : missing).push('articolo');
-      (r.price !== null ? found : missing).push('prezzo totale');
-      if (r.kg !== null) found.push('quantità'); else missing.push('quantità (lasciata a 1 kg)');
-      if (r.order) found.push('n. ordine');
-
-      let msg = found.length ? `Riconosciuto: ${found.join(', ')}.` : 'Non ho riconosciuto nessun dato.';
-      if (missing.length) msg += ` Da completare a mano: ${missing.join(', ')}.`;
-      if (!r.date) msg += ' La data è impostata a oggi.';
-      if (r.priceEstimated) msg += ' Il prezzo è l\'importo più alto trovato: verificalo.';
-      msg += ' Controlla il modulo qui sotto e premi "Salva Acquisto".';
-      setImportStatus(msg, missing.length || r.priceEstimated ? 'warn' : 'ok');
-
-      form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-
-    // --- OCR (Tesseract.js, caricato solo quando serve) ---
-    let tesseractPromise = null;
-    function loadTesseract() {
-      if (window.Tesseract) return Promise.resolve(window.Tesseract);
-      if (!tesseractPromise) {
-        tesseractPromise = new Promise((resolve, reject) => {
-          const s = document.createElement('script');
-          s.src = 'https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js';
-          s.onload = () => resolve(window.Tesseract);
-          s.onerror = () => {
-            tesseractPromise = null;
-            reject(new Error('impossibile caricare il motore OCR (serve una connessione internet).'));
-          };
-          document.head.appendChild(s);
-        });
-      }
-      return tesseractPromise;
-    }
-
-    function loadImageFromFile(file) {
-      return new Promise((resolve, reject) => {
-        const url = URL.createObjectURL(file);
-        const img = new Image();
-        img.onload = () => { URL.revokeObjectURL(url); resolve(img); };
-        img.onerror = () => { URL.revokeObjectURL(url); reject(new Error('immagine non valida.')); };
-        img.src = url;
-      });
-    }
-
-    // Ingrandisce gli screenshot piccoli, passa in scala di grigi e inverte i temi scuri: l'OCR legge meglio così.
-    async function prepareForOcr(file) {
-      const img = await loadImageFromFile(file);
-      const longSide = Math.max(img.width, img.height);
-      let scale = img.width < 1400 ? 2 : 1;
-      if (longSide * scale > 4000) scale = 4000 / longSide;
-      const canvas = document.createElement('canvas');
-      canvas.width = Math.max(1, Math.round(img.width * scale));
-      canvas.height = Math.max(1, Math.round(img.height * scale));
-      const ctx = canvas.getContext('2d', { willReadFrequently: true });
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-      const data = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      const px = data.data;
-      let sum = 0;
-      for (let i = 0; i < px.length; i += 4) {
-        const g = 0.299 * px[i] + 0.587 * px[i + 1] + 0.114 * px[i + 2];
-        px[i] = px[i + 1] = px[i + 2] = g;
-        sum += g;
-      }
-      const mean = sum / (px.length / 4);
-      if (mean < 110) {
-        for (let i = 0; i < px.length; i += 4) {
-          px[i] = px[i + 1] = px[i + 2] = 255 - px[i];
-        }
-      }
-      ctx.putImageData(data, 0, 0);
-      return canvas;
-    }
-
-    let ocrBusy = false;
-    async function runOcr(file) {
-      if (ocrBusy) {
-        setImportStatus('Sto ancora elaborando un\'immagine, attendi un attimo.', 'warn');
-        return;
-      }
-      ocrBusy = true;
-      setImportStatus('Carico il motore OCR…', 'info');
-      try {
-        const T = await loadTesseract();
-        const canvas = await prepareForOcr(file);
-        const result = await T.recognize(canvas, 'ita+eng', {
-          logger: m => {
-            if (m && m.status) {
-              const p = typeof m.progress === 'number' && m.progress > 0 ? ` ${Math.round(m.progress * 100)}%` : '';
-              setImportStatus(`OCR in corso: ${m.status}${p}`, 'info');
-            }
-          }
-        });
-        const text = ((result && result.data && result.data.text) || '').trim();
-        if (!text) {
-          setImportStatus('Non ho riconosciuto testo nell\'immagine. Prova con uno screenshot più nitido o incolla il testo della mail.', 'warn');
-          return;
-        }
-        document.getElementById('import-text').value = text;
-        analyzeImportText();
-      } catch (err) {
-        setImportStatus('Errore OCR: ' + (err && err.message ? err.message : err), 'error');
-      } finally {
-        ocrBusy = false;
-      }
-    }
-
-    function importFromScreenshot(e) {
-      const file = e.target.files && e.target.files[0];
-      if (!file) return;
-      runOcr(file);
-    }
-
-    // Incolla uno screenshot direttamente nella casella di testo (Ctrl+V / Cmd+V)
-    document.addEventListener('DOMContentLoaded', () => {
-      const ta = document.getElementById('import-text');
-      ta.addEventListener('paste', ev => {
-        const items = (ev.clipboardData && ev.clipboardData.items) || [];
-        for (const it of items) {
-          if (it.type && it.type.startsWith('image/')) {
-            ev.preventDefault();
-            const f = it.getAsFile();
-            if (f) runOcr(f);
-            return;
-          }
-        }
-      });
-    });
-
-    // ---------- Stampe ----------
     function addPrint(e) {
       e.preventDefault();
+      
+      let itemsUsed = [];
+      let totalWeightUsed = 0;
+      let filamentCost = 0;
 
-      const fallbackPerKg = Math.max(0, num(document.getElementById('print-fallback-price').value, 20));
-
-      // Prima fase: valido tutto SENZA modificare i dati.
-      const picks = [];
-      const seen = new Set();
       for (let i = 0; i < 4; i++) {
         const spoolId = document.getElementById(`print-spool-${i}`).value;
         const weightUsed = parseInt(document.getElementById(`print-weight-${i}`).value) || 0;
-        if (!spoolId && !weightUsed) continue;
 
-        if (!spoolId || weightUsed <= 0) {
-          alert(`Slot ${i + 1}: seleziona il filamento e inserisci i grammi usati.`);
-          return;
-        }
-        if (seen.has(spoolId)) {
-          alert(`Slot ${i + 1}: hai già selezionato questo filamento in un altro slot. Somma i grammi in un solo slot.`);
-          return;
-        }
-        seen.add(spoolId);
+        if (spoolId && weightUsed > 0) {
+          const spool = spools.find(s => s.id === spoolId);
+          if (spool) {
+            let costPerGram = 0;
+            const initW = spool.initialWeight || 1000;
+            if (spool.cost && spool.cost > 0) {
+              costPerGram = spool.cost / initW;
+            } else {
+              costPerGram = 20 / 1000;
+            }
 
-        const spool = spools.find(s => s.id === spoolId);
-        if (!spool) {
-          alert(`Slot ${i + 1}: filamento non trovato.`);
-          return;
+            const itemCost = weightUsed * costPerGram;
+            spool.weight = Math.max(0, spool.weight - weightUsed);
+
+            itemsUsed.push({
+              spoolName: `${spool.type || 'Bobina'} ${spool.brand} ${spool.material} (${spool.colorName})`,
+              weightUsed: weightUsed
+            });
+
+            totalWeightUsed += weightUsed;
+            filamentCost += itemCost;
+          }
         }
-        if (weightUsed > spool.weight) {
-          alert(`Slot ${i + 1}: hai indicato ${weightUsed} g ma "${spool.brand} ${spool.colorName}" ne ha solo ${spool.weight} g. Correggi il peso o aggiorna la bobina.`);
-          return;
-        }
-        picks.push({ spool, weightUsed });
       }
 
-      if (picks.length === 0) {
+      if (itemsUsed.length === 0) {
         alert('Seleziona almeno un filamento e inserisci il peso consumato!');
         return;
       }
 
-      // Seconda fase: calcolo costi e aggiorno i dati.
-      let filamentCost = 0;
-      let totalWeightUsed = 0;
-      const itemsUsed = picks.map(({ spool, weightUsed }) => {
-        const initW = spool.initialWeight || 1000;
-        const estimated = !(spool.cost > 0);
-        const perGram = estimated ? fallbackPerKg / 1000 : spool.cost / initW;
-        const cost = weightUsed * perGram;
+      const watts = parseFloat(document.getElementById('print-watts').value) || 150;
+      const hours = parseFloat(document.getElementById('print-hours').value) || 0;
+      const kwhRate = parseFloat(document.getElementById('print-kwh-rate').value) || 0.30;
+      const kwh = (watts * hours) / 1000;
+      const electricityCost = kwh * kwhRate;
 
-        spool.weight = Math.max(0, spool.weight - weightUsed);
-        filamentCost += cost;
-        totalWeightUsed += weightUsed;
+      const totalPrintCost = filamentCost + electricityCost;
 
-        return {
-          spoolId: spool.id,
-          spoolName: `${spool.type || 'Bobina'} ${spool.brand} ${spool.material} (${spool.colorName})`,
-          weightUsed,
-          cost,
-          estimated
-        };
-      });
-
-      const watts = num(document.getElementById('print-watts').value, 150);
-      const hours = num(document.getElementById('print-hours').value, 0);
-      const kwhRate = num(document.getElementById('print-kwh-rate').value, 0.30);
-      const electricityCost = (watts * hours / 1000) * kwhRate;
-
-      prints.push({
-        id: uid(),
-        ts: Date.now(),
-        dateISO: todayISO(),
+      const newPrint = {
+        id: Date.now().toString(),
+        date: new Date().toLocaleDateString('it-IT'),
         name: document.getElementById('print-name').value.trim(),
         items: itemsUsed,
         weightUsed: totalWeightUsed,
-        filamentCost,
-        electricityCost,
-        cost: filamentCost + electricityCost,
-        watts, hours, kwhRate
-      });
+        cost: totalPrintCost,
+        electricityCost: electricityCost
+      };
 
+      prints.push(newPrint);
       saveData();
       document.getElementById('form-print').reset();
     }
 
     function deletePrint(id) {
-      const p = prints.find(x => x.id === id);
-      if (!p) return;
-      if (!confirm('Eliminare questa stampa dallo storico?')) return;
-
-      const restorable = (p.items || []).filter(i => i.spoolId && spools.some(s => s.id === i.spoolId));
-      if (restorable.length > 0 && confirm('Vuoi riaccreditare ai filamenti i grammi consumati da questa stampa?')) {
-        restorable.forEach(i => {
-          const s = spools.find(x => x.id === i.spoolId);
-          s.weight += i.weightUsed;
-        });
+      if (confirm('Eliminare questa stampa dallo storico?')) {
+        prints = prints.filter(p => p.id !== id);
+        saveData();
       }
-      prints = prints.filter(x => x.id !== id);
-      saveData();
     }
 
-    // ---------- Rendering ----------
     function renderAll() {
       renderStats();
       renderStockSummary();
-      renderFilterOptions();
       renderSpools();
       renderPurchases();
       renderPrints();
@@ -1331,35 +729,34 @@
         return;
       }
 
-      const materials = {};
-      const colors = {};
+      let materialsCount = {};
+      let colorsCount = {};
+
       spools.forEach(s => {
         const mat = s.material || 'Altro';
-        if (!materials[mat]) materials[mat] = { count: 0, grams: 0 };
-        materials[mat].count += 1;
-        materials[mat].grams += s.weight || 0;
+        materialsCount[mat] = (materialsCount[mat] || 0) + 1;
 
         const colKey = s.colorName || 'Altro';
-        if (!colors[colKey]) colors[colKey] = { count: 0, grams: 0, code: s.colorCode || '#3b82f6' };
-        colors[colKey].count += 1;
-        colors[colKey].grams += s.weight || 0;
+        if (!colorsCount[colKey]) {
+          colorsCount[colKey] = { count: 0, code: s.colorCode || '#3b82f6' };
+        }
+        colorsCount[colKey].count += 1;
       });
 
-      for (const [mat, data] of Object.entries(materials)) {
+      for (const [mat, count] of Object.entries(materialsCount)) {
         const badge = document.createElement('span');
         badge.className = "inline-flex items-center bg-indigo-950/80 text-indigo-300 border border-indigo-700/50 px-2.5 py-1 rounded-md text-xs font-medium";
-        badge.innerHTML = `${esc(mat)} <span class="ml-1.5 bg-indigo-600 text-white rounded-full min-w-[1rem] h-4 px-1 inline-flex items-center justify-center text-[10px] font-bold">${data.count}</span><span class="ml-1.5 text-indigo-400/80 text-[10px]">${data.grams} g</span>`;
+        badge.innerHTML = `${mat} <span class="ml-1.5 bg-indigo-600 text-white rounded-full w-4 h-4 inline-flex items-center justify-center text-[10px] font-bold">${count}</span>`;
         matContainer.appendChild(badge);
       }
 
-      for (const [colName, data] of Object.entries(colors)) {
+      for (const [colName, data] of Object.entries(colorsCount)) {
         const badge = document.createElement('span');
         badge.className = "inline-flex items-center bg-slate-800 text-slate-200 border border-slate-700 px-2 py-1 rounded-md text-xs font-medium space-x-1.5";
         badge.innerHTML = `
-          <span class="w-2.5 h-2.5 rounded-full border border-slate-600 inline-block" style="background-color: ${esc(data.code)}"></span>
-          <span>${esc(colName)}</span>
-          <span class="bg-slate-700 text-slate-300 rounded-full min-w-[1rem] h-4 px-1 inline-flex items-center justify-center text-[10px] font-bold">${data.count}</span>
-          <span class="text-slate-500 text-[10px]">${data.grams} g</span>
+          <span class="w-2.5 h-2.5 rounded-full border border-slate-600 inline-block" style="background-color: ${data.code}"></span>
+          <span>${colName}</span>
+          <span class="bg-slate-700 text-slate-300 rounded-full w-4 h-4 inline-flex items-center justify-center text-[10px] font-bold">${data.count}</span>
         `;
         colContainer.appendChild(badge);
       }
@@ -1367,47 +764,16 @@
 
     function renderStats() {
       document.getElementById('stat-total-spools').innerText = spools.length;
-      const totalWeight = spools.reduce((acc, s) => acc + (s.weight || 0), 0);
+      const totalWeight = spools.reduce((acc, s) => acc + s.weight, 0);
       document.getElementById('stat-total-weight').innerText = `${totalWeight} g`;
       document.getElementById('stat-total-prints').innerText = prints.length;
-
+      
       const manualSpent = purchases.reduce((acc, p) => acc + (p.price || 0), 0);
       const spoolsSpent = spools.reduce((acc, s) => acc + (s.cost || 0), 0);
-      document.getElementById('stat-total-spent').innerText = euro(manualSpent + spoolsSpent);
+      document.getElementById('stat-total-spent').innerText = `${(manualSpent + spoolsSpent).toFixed(2)} €`;
 
       const totalPrintCost = prints.reduce((acc, p) => acc + (p.cost || 0), 0);
-      document.getElementById('stat-total-print-cost').innerText = euro(totalPrintCost);
-
-      const avg = prints.length ? totalPrintCost / prints.length : 0;
-      document.getElementById('stat-avg-print-cost').innerText = euro(avg);
-      const totalGrams = prints.reduce((acc, p) => acc + (p.weightUsed || 0), 0);
-      document.getElementById('stat-cost-per-gram').innerText = totalGrams > 0 ? `${(totalPrintCost / totalGrams).toFixed(3)} €/g` : '';
-    }
-
-    function renderFilterOptions() {
-      const select = document.getElementById('filter-material');
-      const current = filters.material;
-      const mats = [...new Set(spools.map(s => s.material).filter(Boolean))].sort();
-      select.innerHTML = '<option value="">Tutti</option>' + mats.map(m => `<option value="${esc(m)}">${esc(m)}</option>`).join('');
-      if (mats.includes(current)) {
-        select.value = current;
-      } else {
-        select.value = '';
-        filters.material = '';
-      }
-    }
-
-    function getFilteredSpools() {
-      const q = filters.q.trim().toLowerCase();
-      return spools.filter(s => {
-        if (filters.material && s.material !== filters.material) return false;
-        if (filters.low && !isLow(s)) return false;
-        if (q) {
-          const hay = [s.brand, s.material, s.colorName, s.sku, s.notes, s.type].join(' ').toLowerCase();
-          if (!hay.includes(q)) return false;
-        }
-        return true;
-      });
+      document.getElementById('stat-total-print-cost').innerText = `${totalPrintCost.toFixed(2)} €`;
     }
 
     function renderSpools() {
@@ -1419,67 +785,62 @@
         return;
       }
 
-      const list = getFilteredSpools();
-      if (list.length === 0) {
-        container.innerHTML = `<div class="col-span-full text-center py-8 text-slate-500 text-sm">Nessun filamento corrisponde ai filtri.</div>`;
-        return;
-      }
-
-      list.forEach(s => {
-        const perc = pct(s);
-        const low = isLow(s);
-        const img = safeImg(s.image);
+      spools.forEach(s => {
+        const perc = Math.round((s.weight / (s.initialWeight || 1000)) * 100);
         const card = document.createElement('div');
         card.className = "bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-md flex flex-col justify-between";
-
+        
         card.innerHTML = `
           <div>
             <div class="h-32 sm:h-36 bg-slate-950 p-2 relative flex items-center justify-center border-b border-slate-700">
-              ${img
-                ? `<img src="${esc(img)}" alt="${esc(s.brand)} ${esc(s.colorName)}" class="w-full h-full object-contain">`
-                : `<div class="w-14 h-14 rounded-full flex items-center justify-center shadow-inner" style="background-color: ${esc(s.colorCode)}">
+              ${s.image 
+                ? `<img src="${s.image}" class="w-full h-full object-contain">` 
+                : `<div class="w-14 h-14 rounded-full flex items-center justify-center shadow-inner" style="background-color: ${s.colorCode}">
                      <i class="fa-solid fa-tape text-slate-900 text-xl opacity-40"></i>
                    </div>`
               }
               <div class="absolute top-2 right-2 flex space-x-1">
-                <span class="bg-indigo-900/90 text-indigo-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-indigo-700 shadow">${esc(s.type || 'Bobina')}</span>
-                <span class="bg-slate-900/90 text-slate-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-slate-700 shadow">${esc(s.material)}</span>
+                <span class="bg-indigo-900/90 text-indigo-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-indigo-700 shadow">
+                  ${s.type || 'Bobina'}
+                </span>
+                <span class="bg-slate-900/90 text-slate-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-indigo-700 shadow">
+                  ${s.material}
+                </span>
               </div>
-              ${low ? `<span class="absolute top-2 left-2 bg-rose-900/90 text-rose-200 text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-rose-700 shadow"><i class="fa-solid fa-triangle-exclamation mr-1"></i>Scorta bassa</span>` : ''}
             </div>
-
+            
             <div class="p-3.5 sm:p-4 space-y-2.5">
               <div class="flex justify-between items-start">
                 <div>
-                  <h3 class="font-bold text-sm sm:text-base text-slate-100">${esc(s.brand)}</h3>
+                  <h3 class="font-bold text-sm sm:text-base text-slate-100">${s.brand}</h3>
                   <div class="flex items-center space-x-2 mt-0.5">
-                    <span class="w-2.5 h-2.5 rounded-full inline-block border border-slate-600" style="background-color: ${esc(s.colorCode)}"></span>
-                    <span class="text-xs text-slate-300 font-medium">${esc(s.colorName)}</span>
+                    <span class="w-2.5 h-2.5 rounded-full inline-block border border-slate-600" style="background-color: ${s.colorCode}"></span>
+                    <span class="text-xs text-slate-300 font-medium">${s.colorName}</span>
                   </div>
                 </div>
                 <div class="flex space-x-1">
-                  <button onclick="openEditModal('${esc(s.id)}')" title="Modifica" aria-label="Modifica" class="text-slate-400 hover:text-indigo-400 p-1.5">
+                  <button onclick="openEditModal('${s.id}')" title="Modifica" class="text-slate-400 hover:text-indigo-400 p-1.5">
                     <i class="fa-solid fa-pen-to-square"></i>
                   </button>
-                  <button onclick="deleteSpool('${esc(s.id)}')" title="Elimina" aria-label="Elimina" class="text-slate-400 hover:text-rose-400 p-1.5">
+                  <button onclick="deleteSpool('${s.id}')" title="Elimina" class="text-slate-400 hover:text-rose-400 p-1.5">
                     <i class="fa-solid fa-trash"></i>
                   </button>
                 </div>
               </div>
 
-              ${s.sku ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-barcode mr-1"></i>SKU: <span class="font-mono text-slate-300">${esc(s.sku)}</span></div>` : ''}
-              ${s.purchaseDate ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-calendar-days mr-1"></i>Acquisto: <span class="text-slate-300">${esc(fmtDate(s.purchaseDate))}</span></div>` : ''}
-              ${s.cost ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-euro-sign mr-1"></i>Costo: <span class="text-slate-300">${euro(s.cost)}</span></div>` : ''}
-              ${s.temp ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-temperature-high mr-1"></i>Ugello: <span class="text-slate-300">${esc(s.temp)}°C</span></div>` : ''}
-              ${s.notes ? `<div class="text-[11px] text-slate-400 bg-slate-900/50 p-2 rounded border border-slate-700/50"><i class="fa-solid fa-note-sticky mr-1 text-indigo-400"></i>${esc(s.notes)}</div>` : ''}
+              ${s.sku ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-barcode mr-1"></i>SKU: <span class="font-mono text-slate-300">${s.sku}</span></div>` : ''}
+              ${s.purchaseDate ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-calendar-days mr-1"></i>Acquisto: <span class="text-slate-300">${s.purchaseDate}</span></div>` : ''}
+              ${s.cost ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-euro-sign mr-1"></i>Costo: <span class="text-slate-300">${s.cost.toFixed(2)} €</span></div>` : ''}
+              ${s.temp ? `<div class="text-[11px] text-slate-400"><i class="fa-solid fa-temperature-high mr-1"></i>Ugello: <span class="text-slate-300">${s.temp}°C</span></div>` : ''}
+              ${s.notes ? `<div class="text-[11px] text-slate-400 bg-slate-900/50 p-2 rounded border border-slate-700/50"><i class="fa-solid fa-note-sticky mr-1 text-indigo-400"></i>${s.notes}</div>` : ''}
 
               <div class="pt-1">
                 <div class="flex justify-between text-xs mb-1">
-                  <span class="text-slate-400">Rimanente: <span class="${low ? 'text-rose-400' : 'text-slate-300'} font-semibold">${perc}%</span></span>
-                  <span class="font-bold text-slate-200">${esc(s.weight)}g / ${esc(s.initialWeight || 1000)}g</span>
+                  <span class="text-slate-400">Rimanente:</span>
+                  <span class="font-bold text-slate-200">${s.weight}g / ${s.initialWeight || 1000}g</span>
                 </div>
                 <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden">
-                  <div class="h-full ${low ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${Math.max(0, Math.min(100, perc))}%"></div>
+                  <div class="h-full ${perc < 20 ? 'bg-rose-500' : 'bg-emerald-500'}" style="width: ${Math.min(100, perc)}%"></div>
                 </div>
               </div>
             </div>
@@ -1493,16 +854,16 @@
       const tbody = document.getElementById('purchases-table-body');
       tbody.innerHTML = '';
 
-      const all = [];
+      let allPurchases = [];
 
       purchases.forEach(p => {
-        all.push({
+        allPurchases.push({
           id: p.id,
-          date: p.date || '',
+          date: p.date || '9999-12-31',
           vendor: p.vendor,
           item: p.item,
           kg: `${p.kg} Kg`,
-          price: p.price || 0,
+          price: p.price,
           notes: p.notes || 'Manuale',
           manual: true
         });
@@ -1510,9 +871,9 @@
 
       spools.forEach(s => {
         if ((s.cost && s.cost > 0) || s.purchaseDate) {
-          all.push({
+          allPurchases.push({
             id: s.id,
-            date: s.purchaseDate || '',
+            date: s.purchaseDate || '9999-12-31',
             vendor: s.brand,
             item: `${s.type || 'Bobina'} ${s.material} - ${s.colorName} (${s.initialWeight || 1000}g)`,
             kg: `${((s.initialWeight || 1000) / 1000).toFixed(1)} Kg`,
@@ -1523,32 +884,25 @@
         }
       });
 
-      // Dal più recente; quelli senza data in fondo
-      all.sort((a, b) => {
-        if (!a.date && !b.date) return 0;
-        if (!a.date) return 1;
-        if (!b.date) return -1;
-        return b.date.localeCompare(a.date);
-      });
+      allPurchases.sort((a, b) => new Date(b.date) - new Date(a.date));
 
-      if (all.length === 0) {
+      if (allPurchases.length === 0) {
         tbody.innerHTML = `<tr><td colspan="7" class="p-4 text-center text-slate-500 text-xs sm:text-sm">Nessun acquisto registrato.</td></tr>`;
         return;
       }
 
-      all.forEach(p => {
+      allPurchases.forEach(p => {
+        const displayDate = p.date === '9999-12-31' ? 'Non specificata' : p.date;
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td class="p-3 text-[11px] sm:text-xs text-slate-400">${esc(fmtDate(p.date))}</td>
-          <td class="p-3 font-semibold text-slate-200">${esc(p.vendor)}</td>
-          <td class="p-3">${esc(p.item)}</td>
-          <td class="p-3 text-slate-300">${esc(p.kg)}</td>
-          <td class="p-3 font-bold text-emerald-400">${euro(p.price)}</td>
-          <td class="p-3 text-[11px] sm:text-xs text-slate-400">${esc(p.notes)}</td>
+          <td class="p-3 text-[11px] sm:text-xs text-slate-400">${displayDate}</td>
+          <td class="p-3 font-semibold text-slate-200">${p.vendor}</td>
+          <td class="p-3">${p.item}</td>
+          <td class="p-3 text-slate-300">${p.kg}</td>
+          <td class="p-3 font-bold text-emerald-400">${p.price.toFixed(2)} €</td>
+          <td class="p-3 text-[11px] sm:text-xs text-slate-400">${p.notes}</td>
           <td class="p-3 text-right">
-            ${p.manual
-              ? `<button onclick="deletePurchase('${esc(p.id)}')" title="Elimina" aria-label="Elimina acquisto" class="text-slate-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash"></i></button>`
-              : `<span class="text-xs text-slate-600" title="Gestito in Inventario"><i class="fa-solid fa-lock"></i></span>`}
+            ${p.manual ? `<button onclick="deletePurchase('${p.id}')" title="Elimina" class="text-slate-500 hover:text-rose-400 p-1"><i class="fa-solid fa-trash"></i></button>` : `<span class="text-xs text-slate-600" title="Gestito in Inventario"><i class="fa-solid fa-lock"></i></span>`}
           </td>
         `;
         tbody.appendChild(tr);
@@ -1556,45 +910,51 @@
     }
 
     function renderPrints() {
-      const tbody = document.getElementById('prints-table-body');
-      tbody.innerHTML = '';
+      const container = document.getElementById('prints-container');
+      container.innerHTML = '';
 
       if (prints.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="6" class="p-4 text-center text-slate-500 text-xs sm:text-sm">Nessuna stampa registrata.</td></tr>`;
+        container.innerHTML = `<div class="text-center py-8 text-slate-500 text-xs sm:text-sm">Nessuna stampa registrata.</div>`;
         return;
       }
 
-      // Più recenti in alto (le stampe vecchie hanno solo l'id basato sul timestamp)
-      const sorted = [...prints].sort((a, b) => (b.ts || Number(b.id) || 0) - (a.ts || Number(a.id) || 0));
+      prints.forEach(p => {
+        const itemsHtml = p.items 
+          ? p.items.map(i => `<div class="text-xs text-slate-300">• ${i.spoolName}: <span class="text-amber-400 font-medium">-${i.weightUsed}g</span></div>`).join('')
+          : `<div class="text-xs text-slate-300">${p.spoolName || 'N/D'} (-${p.weightUsed}g)</div>`;
 
-      sorted.forEach(p => {
-        const itemsHtml = p.items
-          ? p.items.map(i => `<div class="text-[11px] sm:text-xs">• ${esc(i.spoolName)}: <span class="text-amber-300">-${esc(i.weightUsed)}g</span>${i.estimated ? ' <span class="text-slate-500" title="Costo stimato col prezzo di riserva">(stimato)</span>' : ''}</div>`).join('')
-          : `<div class="text-[11px] sm:text-xs text-slate-300">${esc(p.spoolName || 'N/D')} (-${esc(p.weightUsed)}g)</div>`;
+        const elecText = p.electricityCost > 0 ? `<div class="text-[11px] text-slate-400 mt-1 flex items-center"><i class="fa-solid fa-bolt text-amber-400 mr-1.5"></i>Energia: +${p.electricityCost.toFixed(2)} €</div>` : '';
 
-        const elecText = p.electricityCost > 0
-          ? `<div class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-bolt text-amber-400 mr-1"></i>Energia: +${euro(p.electricityCost)}${p.hours ? ` <span class="text-slate-500">(${esc(p.hours)}h · ${esc(p.watts)}W)</span>` : ''}</div>`
-          : '';
-
-        const dateLabel = p.dateISO ? fmtDate(p.dateISO) : (p.date || '');
-
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-          <td class="p-3 text-[11px] sm:text-xs text-slate-400 align-top">${esc(dateLabel)}</td>
-          <td class="p-3 font-semibold text-slate-200 align-top">${esc(p.name)}</td>
-          <td class="p-3 space-y-1 align-top">${itemsHtml}</td>
-          <td class="p-3 text-amber-400 font-medium align-top">-${esc(p.weightUsed)} g</td>
-          <td class="p-3 font-bold text-cyan-400 align-top">
-            ${euro(p.cost)}
-            ${elecText}
-          </td>
-          <td class="p-3 text-right align-top">
-            <button onclick="deletePrint('${esc(p.id)}')" title="Elimina" aria-label="Elimina stampa" class="text-slate-500 hover:text-rose-400 p-1">
-              <i class="fa-solid fa-trash"></i>
+        const card = document.createElement('div');
+        card.className = "bg-slate-900/80 border border-slate-700/80 rounded-xl p-3.5 space-y-3 shadow-sm";
+        card.innerHTML = `
+          <div class="flex justify-between items-start border-b border-slate-800 pb-2.5">
+            <div>
+              <div class="text-[11px] text-slate-400 font-medium">${p.date}</div>
+              <h4 class="font-bold text-sm sm:text-base text-slate-100 mt-0.5">${p.name}</h4>
+            </div>
+            <button onclick="deletePrint('${p.id}')" title="Elimina" class="text-slate-500 hover:text-rose-400 p-1.5">
+              <i class="fa-solid fa-trash text-sm"></i>
             </button>
-          </td>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="text-[11px] font-semibold text-slate-400 uppercase">Filamenti Usati:</div>
+            <div class="space-y-1 pl-1">${itemsHtml}</div>
+          </div>
+
+          <div class="flex justify-between items-center pt-2 border-t border-slate-800/80 text-xs">
+            <div>
+              <span class="text-slate-400">Consumo:</span> <span class="font-semibold text-amber-400">-${p.weightUsed} g</span>
+              ${elecText}
+            </div>
+            <div class="text-right">
+              <div class="text-[10px] uppercase text-slate-400">Costo Totale</div>
+              <div class="text-base font-bold text-cyan-400">${(p.cost || 0).toFixed(2)} €</div>
+            </div>
+          </div>
         `;
-        tbody.appendChild(tr);
+        container.appendChild(card);
       });
     }
 
@@ -1604,15 +964,24 @@
         if (!select) continue;
         const currentVal = select.value;
         select.innerHTML = `<option value="">-- Seleziona ${i + 1} ${i === 0 ? '(Principale)' : '(Opzionale)'} --</option>`;
-
-        spools.filter(s => s.weight > 0).forEach(s => {
+        
+        spools.forEach(s => {
           const opt = document.createElement('option');
           opt.value = s.id;
-          opt.textContent = `[${s.type || 'Bobina'}] ${s.brand} ${s.material} - ${s.colorName} (${s.weight}g)`;
+          opt.innerText = `[${s.type || 'Bobina'}] ${s.brand} ${s.material} - ${s.colorName} (${s.weight}g)`;
           select.appendChild(opt);
         });
         select.value = currentVal;
       }
+    }
+
+    function readAsBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+        reader.readAsDataURL(file);
+      });
     }
   </script>
 </body>
