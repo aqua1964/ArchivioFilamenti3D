@@ -227,7 +227,7 @@
       </div>
     </div>
 
-    <!-- SEZIONE REGISTRO STAMPE (Ottimizzata Mobile Senza Scroll Orizzontale) -->
+    <!-- SEZIONE REGISTRO STAMPE -->
     <div id="view-prints" class="space-y-5 hidden">
       <div class="bg-slate-800 p-4 sm:p-5 rounded-xl border border-slate-700 shadow-lg">
         <h2 class="text-base sm:text-lg font-semibold mb-4 text-amber-400 flex items-center">
@@ -241,7 +241,7 @@
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1">Potenza (W)</label>
-              <input type="number" id="print-watts" value="150" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
+              <input type="number" id="print-watts" value="1450" min="1" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2.5 text-sm text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
               <label class="block text-xs font-medium text-slate-400 mb-1">Durata (Ore)</label>
@@ -316,7 +316,7 @@
         </form>
       </div>
 
-      <!-- Contenitore Storico Stampe (Card Responsive Verticali) -->
+      <!-- Contenitore Storico Stampe -->
       <div class="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden shadow-lg">
         <div class="p-4 border-b border-slate-700">
           <h3 class="font-semibold text-slate-200 text-sm sm:text-base">Storico Lavori di Stampa e Costi</h3>
@@ -678,7 +678,7 @@
         return;
       }
 
-      const watts = parseFloat(document.getElementById('print-watts').value) || 150;
+      const watts = parseFloat(document.getElementById('print-watts').value) || 1450;
       const hours = parseFloat(document.getElementById('print-hours').value) || 0;
       const kwhRate = parseFloat(document.getElementById('print-kwh-rate').value) || 0.30;
       const kwh = (watts * hours) / 1000;
@@ -803,7 +803,7 @@
                 <span class="bg-indigo-900/90 text-indigo-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-indigo-700 shadow">
                   ${s.type || 'Bobina'}
                 </span>
-                <span class="bg-slate-900/90 text-slate-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-indigo-700 shadow">
+                <span class="bg-slate-900/90 text-slate-200 backdrop-blur text-[10px] sm:text-xs px-2 py-0.5 rounded font-semibold border border-slate-700 shadow">
                   ${s.material}
                 </span>
               </div>
